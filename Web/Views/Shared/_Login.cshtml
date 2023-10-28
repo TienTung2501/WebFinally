@@ -1,0 +1,39 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<AppUser> signInManager
+
+@{
+    if (User.Identity.IsAuthenticated)
+    {
+        <li>
+            <div class="ht-setting-trigger"><span>Hello @User.Identity.Name.ToUpper()</span></div>
+            <div class="setting ht-setting">
+                <ul class="ht-setting-list">
+                    <li><a href="checkout.html">Checkout</a></li>
+                    <li>
+                        <label for="btn-logout" style="font-size:12px;color:#a5a5a5;cursor:pointer;padding:0 10px;margin-bottom:0; width:100%" onMouseOver="this.style.color='#fff'"
+                               onMouseOut="this.style.color='#a5a5a5'">Log Off</label>
+                        <form asp-controller="Account" asp-action="LogOff" method="post" style="display:none">
+                            @Html.AntiForgeryToken()  <!--thằng này gửi mã này với yêu cầu post để cung cấp 2 thuộc tính cho action logoff--> 
+                            <button id="btn-logout" type="submit"></button>
+                        </form>
+
+                    </li>
+                </ul>
+            </div>
+        </li>
+      
+    }
+    else
+    {
+        <li>
+            <div class="ht-setting-trigger"><span>Log In</span></div>
+            <div class="setting ht-setting">
+                <ul class="ht-setting-list">
+                    <li><a asp-action="Login" asp-controller="Account">Log In</a></li>
+                    <li><a asp-action="Register" asp-controller="Account">Register</a></li>
+                </ul>
+            </div>
+        </li>
+        
+    }
+}
