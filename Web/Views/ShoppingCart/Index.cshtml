@@ -1,9 +1,9 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model List<Web.Models.CartItem>
 @{
     ViewData["Title"] = "Shoping Cart";
+    double total = 0;
 }
+
 <div class="breadcrumb-area">
     <div class="container">
         <div class="breadcrumb-content">
@@ -34,11 +34,15 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                @foreach( var item in Model)
+                                {
+                                    var thanhtien = item.quantity * item.product.Price;
+                                    total += thanhtien;
                                 <tr>
                                     <td class="li-product-remove"><a href="#"><i class="fa fa-times"></i></a></td>
-                                    <td class="li-product-thumbnail"><a href="#"><img src="images/product/small-size/5.jpg" alt="Li's Product Image"></a></td>
-                                    <td class="li-product-name"><a href="#">Accusantium dolorem1</a></td>
-                                    <td class="li-product-price"><span class="amount">$46.80</span></td>
+                                    <td class="li-product-thumbnail"><a href="#"><img src="images/product/small-size/@item.product.Image" alt="Li's Product Image"></a></td>
+                                    <td class="li-product-name"><a href="#">@item.product.NameProduct</a></td>
+                                    <td class="li-product-price"><span class="amount">@item.product.Price</span></td>
                                     <td class="quantity">
                                         <label>Quantity</label>
                                         <div class="cart-plus-minus">
@@ -47,23 +51,10 @@
                                             <div class="inc qtybutton"><i class="fa fa-angle-up"></i></div>
                                         </div>
                                     </td>
-                                    <td class="product-subtotal"><span class="amount">$70.00</span></td>
+                                    <td class="product-subtotal"><span class="amount">@thanhtien</span></td>
                                 </tr>
-                                <tr>
-                                    <td class="li-product-remove"><a href="#"><i class="fa fa-times"></i></a></td>
-                                    <td class="li-product-thumbnail"><a href="#"><img src="images/product/small-size/6.jpg" alt="Li's Product Image"></a></td>
-                                    <td class="li-product-name"><a href="#">Mug Today is a good day</a></td>
-                                    <td class="li-product-price"><span class="amount">$71.80</span></td>
-                                    <td class="quantity">
-                                        <label>Quantity</label>
-                                        <div class="cart-plus-minus">
-                                            <input class="cart-plus-minus-box" value="1" type="text">
-                                            <div class="dec qtybutton"><i class="fa fa-angle-down"></i></div>
-                                            <div class="inc qtybutton"><i class="fa fa-angle-up"></i></div>
-                                        </div>
-                                    </td>
-                                    <td class="product-subtotal"><span class="amount">$60.50</span></td>
-                                </tr>
+                                }
+                               
                             </tbody>
                         </table>
                     </div>
@@ -85,8 +76,8 @@
                             <div class="cart-page-total">
                                 <h2>Cart totals</h2>
                                 <ul>
-                                    <li>Subtotal <span>$130.00</span></li>
-                                    <li>Total <span>$130.00</span></li>
+                                    <li>Subtotal <span>@total</span></li>
+                                    <li>Total <span>@total</span></li>
                                 </ul>
                                 <a href="#">Proceed to checkout</a>
                             </div>
@@ -97,3 +88,20 @@
         </div>
     </div>
 </div>
+@section AddToCart{
+    <script>
+        function handlerAddToCart(id) {
+            $.ajax({
+                url: '/ShoppingCart/AddToCart', // Địa chỉ của action "AddToCart" trong controller "ShoppingCart"
+                type: 'POST',
+                data: { productId: id }
+                        success: function (data) {
+                    alert("Sản phẩm đã được thêm vào giỏ hàng");
+                },
+                error: function () {
+                    alert("Có lỗi xảy ra khi thêm sản phẩm vào giỏ hàng");
+                }
+            });
+        }
+    </script>
+}

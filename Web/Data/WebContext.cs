@@ -45,7 +45,10 @@ namespace Web.Data
                     entityType.SetTableName(tableName.Substring(6));
                 }
             }
-
+            modelBuilder.Entity<TblOrder>()
+           .HasOne(o => o.User)
+           .WithMany(u => u.Orders)
+           .HasForeignKey(o => o.UserId);
             // Thêm cấu hình liên quan đến ASP.NET Core Identity
             // Ví dụ: Thiết lập primary key cho IdentityUser
             modelBuilder.Entity<IdentityUser>().Property(u => u.Id).HasMaxLength(255);

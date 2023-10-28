@@ -1,6 +1,6 @@
 ﻿@{
     ViewData["Title"] = "Shop left side bar";
-    Layout = "~/Views/Shared/AppLayout.cshtml";
+    Layout = "~/Views/Shared/_AppLayout.cshtml";
 }
 <!-- Begin Li's Breadcrumb Area -->
 <div class="breadcrumb-area">
@@ -1270,3 +1270,19 @@
     </div>
 </div>
 <!-- Content Wraper Area End Here -->
+@section Scripts{
+    <script>
+
+        $("#sortSelect").change(function (e) {
+            var selectedValue = $(this).val();
+            $.ajax({
+                url: "/Shop/Sort",
+                data: { sortProduct: selectedValue },
+                success: function (response) {
+                    $("div#listProduct").html(response);
+                }
+            });
+
+        });
+    </script>
+}

@@ -35,6 +35,7 @@
             <partial name="Footer"/>
         </footer>
     </div>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/js/vendor/modernizr-2.8.3.min.js"></script>
     <script src="~/js/vendor/jquery-1.12.4.min.js"></script>
     <!-- Popper js -->
@@ -77,6 +78,11 @@
     <script src="~/js/scrollUp.min.js"></script>
     <!-- Main/Activator js -->
     <script src="~/js/main.js"></script>
+    <!--rendersection -->
+    @await RenderSectionAsync("AddToCart",required: false)
+    <!--rendersection -->
+    <!--Trung2-->
     @await RenderSectionAsync("Scripts", required: false)
+    <!--Trung1-->
 </body>
 </html>
