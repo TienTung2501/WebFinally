@@ -1,0 +1,38 @@
+﻿
+@model List<Web.Models.CartItem>
+@{
+    double total = 0;
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th class="li-product-remove">remove</th>
+            <th class="li-product-thumbnail">images</th>
+            <th class="cart-product-name">Product</th>
+            <th class="li-product-price">Unit Price</th>
+            <th class="li-product-quantity">Quantity</th>
+            <th class="li-product-subtotal">Total</th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var item in Model)
+        {
+                <tr id="cartItem_@item.product.ProductId">
+                    <td class="li-product-remove"><a style="cursor:pointer" onclick="handlerRemoveCart(@item.product.ProductId)"><i class="fa fa-times"></i></a></td>
+                    @* <td class="li-product-remove"><a style="cursor:pointer" asp-controller="ShoppingCart" asp-action="RemoveCart" asp-route-productId="@item.product.ProductId"><i class="fa fa-times"></i></a></td> *@
+                    <td class="li-product-thumbnail"><a href="#"><img src="images/product/small-size/@item.product.Image" alt="Li's Product Image"></a></td>
+                    <td class="li-product-name"><a href="#">@item.product.NameProduct</a></td>
+                    <td class="li-product-price"><span class="amount">@item.product.Price</span></td>
+                    <td class="quantity">
+                        <div style="width:100%">
+                            <input style="background:none;border:none;width:40%;margin:auto" min="1" max="1000" value="@item.quantity" type="number" onchange="handlerUpdateQuantity(@item.product.ProductId,this.value)">
+                        </div>
+                    </td>
+                    <td class="product-subtotal"><span class="amount">@item.total</span></td>
+                </tr>
+        }
+    </tbody>
+
+</table>

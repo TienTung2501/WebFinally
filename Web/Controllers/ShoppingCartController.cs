@@ -41,8 +41,13 @@ namespace Web.Controllers
             string jsoncart = JsonConvert.SerializeObject(ls);
             session.SetString(CARTKEY, jsoncart);
         }
-        /*[HttpPost("/ShoppingCart/AddToCart/{productId}")]
-        [Route("addcart/{productid:int}", Name = "addcart")]*/
+        // Hiện thị giỏ hàng
+        [Route("/cart", Name = "cart")]
+        public IActionResult Cart()
+        {
+            ViewBag.Total = updateTotal();
+            return View("Index", GetCartItems());
+        }
         public IActionResult AddToCart(int productId)
         {
             var product = data.TblProducts
@@ -58,55 +63,59 @@ namespace Web.Controllers
             {
                 // Đã tồn tại, tăng thêm 1
                 cartitem.quantity++;
+                cartitem.total = cartitem.quantity * cartitem.product.Price;
             }
             else
             {
                 //  Thêm mới
-                cart.Add(new CartItem() { quantity = 1, product = product });
+                cart.Add(new CartItem() { quantity = 1, product = product ,total=product.Price});
             }
 
             // Lưu cart vào Session
             SaveCartSession(cart);
-            // Chuyển đến trang hiện thị Cart
-            return RedirectToAction(nameof(Cart));
+            return Ok();
+            // return RedirectToAction(nameof(Cart));
 
         }
-        // Hiện thị giỏ hàng
-        [Route("/cart", Name = "cart")]
-        public IActionResult Cart()
-        {
-            return View("Index",GetCartItems());
-        }
-        [Route("/updatecart", Name = "updatecart")]
-        [HttpPost]
-        public IActionResult UpdateCart([FromForm] int productid, [FromForm] int quantity)
+       
+        public IActionResult UpdateCart(int productId, int quantity)
         {
             // Cập nhật Cart thay đổi số lượng quantity ...
             var cart = GetCartItems();
-            var cartitem = cart.Find(p => p.product.ProductId == productid);
+            var cartitem = cart.Find(p => p.product.ProductId == productId);
             if (cartitem != null)
             {
                 // Đã tồn tại, tăng thêm 1
                 cartitem.quantity = quantity;
+                cartitem.total = cartitem.quantity * cartitem.product.Price;
             }
             SaveCartSession(cart);
             // Trả về mã thành công (không có nội dung gì - chỉ để Ajax gọi)
-            return Ok();
+            ViewBag.Total = updateTotal();
+            return PartialView("CartItemProductId", cartitem);
         }
         /// xóa item trong cart
-        [Route("/removecart/{productid:int}", Name = "removecart")]
-        public IActionResult RemoveCart([FromRoute] int productid)
+        /*[Route("/removecart/{productid:int}", Name = "removecart")]*/
+        public IActionResult RemoveCart(int productId)
         {
             var cart = GetCartItems();
-            var cartitem = cart.Find(p => p.product.ProductId == productid);
+            var cartitem = cart.Find(p => p.product.ProductId == productId);
             if (cartitem != null)
             {
-                // Đã tồn tại, tăng thêm 1
                 cart.Remove(cartitem);
             }
-
             SaveCartSession(cart);
-            return RedirectToAction(nameof(Cart));
+            return PartialView("CartItem",cart);
+        }
+        public double updateTotal()
+        {
+            double total = 0;
+            var cart = GetCartItems();
+            foreach(var item in cart)
+            {
+                total += item.total;
+            }
+            return total;
         }
     }
 }

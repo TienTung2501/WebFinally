@@ -2,6 +2,7 @@
 @{
     ViewData["Title"] = "Shoping Cart";
     double total = 0;
+   
 }
 
 <div class="breadcrumb-area">
@@ -22,66 +23,61 @@
             <div class="col-12">
                 <form action="#">
                     <div class="table-content table-responsive">
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th class="li-product-remove">remove</th>
-                                    <th class="li-product-thumbnail">images</th>
-                                    <th class="cart-product-name">Product</th>
-                                    <th class="li-product-price">Unit Price</th>
-                                    <th class="li-product-quantity">Quantity</th>
-                                    <th class="li-product-subtotal">Total</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach( var item in Model)
-                                {
-                                    var thanhtien = item.quantity * item.product.Price;
-                                    total += thanhtien;
-                                <tr>
-                                    <td class="li-product-remove"><a href="#"><i class="fa fa-times"></i></a></td>
-                                    <td class="li-product-thumbnail"><a href="#"><img src="images/product/small-size/@item.product.Image" alt="Li's Product Image"></a></td>
-                                    <td class="li-product-name"><a href="#">@item.product.NameProduct</a></td>
-                                    <td class="li-product-price"><span class="amount">@item.product.Price</span></td>
-                                    <td class="quantity">
-                                        <label>Quantity</label>
-                                        <div class="cart-plus-minus">
-                                            <input class="cart-plus-minus-box" value="1" type="text">
-                                            <div class="dec qtybutton"><i class="fa fa-angle-down"></i></div>
-                                            <div class="inc qtybutton"><i class="fa fa-angle-up"></i></div>
+                        <div id="cartitem">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th class="li-product-remove">remove</th>
+                                        <th class="li-product-thumbnail">images</th>
+                                        <th class="cart-product-name">Product</th>
+                                        <th class="li-product-price">Unit Price</th>
+                                        <th class="li-product-quantity">Quantity</th>
+                                        <th class="li-product-subtotal">Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr id="cartItem_@item.product.ProductId">
+                                            <td class="li-product-remove"><a style="cursor:pointer" onclick="handlerRemoveCart(@item.product.ProductId)"><i class="fa fa-times"></i></a></td>
+                                            @* <td class="li-product-remove"><a style="cursor:pointer" asp-controller="ShoppingCart" asp-action="RemoveCart" asp-route-productId="@item.product.ProductId"><i class="fa fa-times"></i></a></td> *@
+                                            <td class="li-product-thumbnail"><a href="#"><img src="images/product/small-size/@item.product.Image" alt="Li's Product Image"></a></td>
+                                            <td class="li-product-name"><a href="#">@item.product.NameProduct</a></td>
+                                            <td class="li-product-price"><span class="amount">@item.product.Price</span></td>
+                                            <td class="quantity">
+                                                <div style="width:100%">
+                                                    <input style="background:none;border:none;width:40%;margin:auto" min="1" max="1000" value="@item.quantity" type="number" onchange="handlerUpdateQuantity(@item.product.ProductId,this.value)">
+                                                </div>
+                                            </td>
+                                            <td class="product-subtotal"><span class="amount">@item.total</span></td>
+                                        </tr>
+                                    }
+                                </tbody>
+
+                            </table>
+                        </div>
+                        <div class="row container" style="margin: auto;">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="coupon-all">
+                                            <div class="coupon2">
+                                                <input class="button" name="update_cart" value="Update cart" type="submit">
+                                            </div>
                                         </div>
-                                    </td>
-                                    <td class="product-subtotal"><span class="amount">@thanhtien</span></td>
-                                </tr>
-                                }
-                               
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="coupon-all">
-                                <div class="coupon">
-                                    <input id="coupon_code" class="input-text" name="coupon_code" value="" placeholder="Coupon code" type="text">
-                                    <input class="button" name="apply_coupon" value="Apply coupon" type="submit">
+                                    </div>
                                 </div>
-                                <div class="coupon2">
-                                    <input class="button" name="update_cart" value="Update cart" type="submit">
+                                <div class="col-md-7 ml-auto">
+                                    <div class="cart-page-total">
+                                        <h2>Cart totals</h2>
+                                        <ul>
+                                        <li>Subtotal <span id="subtotalAmount">@ViewBag.Total</span></li>
+                                        <li>Total <span id="totalAmount">@ViewBag.Total</span></li>
+                                        </ul>
+                                        <a href="#">Proceed to checkout</a>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-5 ml-auto">
-                            <div class="cart-page-total">
-                                <h2>Cart totals</h2>
-                                <ul>
-                                    <li>Subtotal <span>@total</span></li>
-                                    <li>Total <span>@total</span></li>
-                                </ul>
-                                <a href="#">Proceed to checkout</a>
-                            </div>
-                        </div>
                     </div>
                 </form>
             </div>
@@ -92,16 +88,62 @@
     <script>
         function handlerAddToCart(id) {
             $.ajax({
-                url: '/ShoppingCart/AddToCart', // Địa chỉ của action "AddToCart" trong controller "ShoppingCart"
-                type: 'POST',
-                data: { productId: id }
-                        success: function (data) {
-                    alert("Sản phẩm đã được thêm vào giỏ hàng");
+                url: '/ShoppingCart/AddToCart',
+                data: {
+                    productId: id
+                }, 
+                success: function (data) {
+                    alert("THêm thành công");
                 },
-                error: function () {
+                error: function (data) {
                     alert("Có lỗi xảy ra khi thêm sản phẩm vào giỏ hàng");
                 }
             });
+         }
+
+       function handlerRemoveCart(id) {
+            $.ajax({
+                url: '/ShoppingCart/RemoveCart',
+                data: {
+                    productId: id
+                },
+                success: function (data) {
+                    $("#cartitem").html(data);
+                    alert("Xóa thành công");
+                    reUpdateTotal();
+                },
+                error: function () {
+                    alert("Có lỗi xảy ra, xóa thất bại");
+                }
+            });
+        }
+        function handlerUpdateQuantity(id, number) {
+            $.ajax({
+                url: '/ShoppingCart/UpdateCart',
+                data: {
+                    productId: id,
+                    quantity: number
+                },
+                success: function (data) {
+                    $(`#cartItem_${id}`).html(data);
+                    reUpdateTotal();
+                },
+                error: function () {
+                    alert("Có lỗi xảy ra");
+                }
+            });
+        }
+        function reUpdateTotal() {
+            var total = 0;
+            // Lặp qua từng sản phẩm trong giỏ hàng
+            $(".product-subtotal .amount").each(function () {
+                total += parseFloat($(this).text());
+            });
+
+            // Cập nhật giá trị total trên trang web
+            $("#subtotalAmount").text(total);
+            $("#totalAmount").text(total);
         }
     </script>
-}
+ }
+
