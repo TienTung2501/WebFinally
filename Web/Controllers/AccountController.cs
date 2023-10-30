@@ -105,8 +105,16 @@ namespace BTLWeb.Controllers
                                                                 lockoutOnFailure: true);
                 if (result.Succeeded)
                 {
-                    return RedirectToAction("Index", "Home");
+                    if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
+                    {
+                        return Redirect(returnUrl); // Chuyển hướng đến trang ban đầu sau đăng nhập
+                    }
+                    else
+                    {
+                        return RedirectToAction("Index", "Home"); // Hoặc chuyển hướng đến trang mặc định
+                    }
                 }
+
                 if (result.IsLockedOut)
                 {
                     return RedirectToAction("Index", "Home");

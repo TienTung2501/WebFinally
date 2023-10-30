@@ -1,0 +1,119 @@
+﻿@model List<Web.Models.TblOrder>
+@{
+    ViewData["Title"] = "Order";
+}
+
+<div class="d-flex justify-content-between align-items-center px-5 mt-100">
+    <h1 style="font-size:20px;font-weight:600;margin-bottom:auto">
+        <span style="font-size:20px;font-weight:600;color:#1b75d0;font-style:italic"> Order List</span>
+    </h1>
+    <div class="d-flex">
+        <span style="font-size:20px;font-weight:500;color:#f52424" class="pr-10">
+            Name:
+        </span>
+        <span style="font-size:20px;font-weight:500;color:#f52424">
+            @ViewBag.Username
+        </span>
+
+    </div>
+
+</div>
+<!-- Li's Breadcrumb Area End Here -->
+<!--Shopping Cart Area Strat-->
+<div class="Shopping-cart-area pt-20 pb-60">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <form action="#">
+                    <div class="table-content table-responsive">
+                        <div id="cartitem">
+                            <table class="table table-striped">       
+                                <thead>
+                                    <tr>
+                                        <th>Id</th>
+                                        <th>Date</th>
+                                        <th>Total</th>
+                                        <th>Status</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var o in Model)
+                                    {
+                                        <tr>
+                                            <td>Order#@o.OrderId</td>
+                                            <td>@o.CreatedAt</td>
+                                            <td>@o.Total</td>
+                                            <td>@o.Status</td>
+                                            <td>
+                                                <a asp-action="OrderDetail" asp-controller="Order" class="btn btn-outline-info" asp-route-id="@o.OrderId" 
+                                               asp-route-date="@o.CreatedAt" asp-route-status="@o.Status">Detail</a>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@* <table class="table">
+    <thead>
+        <tr>
+            <th class="li-product-remove">Mã Hóa đơ</th>
+            <th class="li-product-thumbnail">images</th>
+            <th class="cart-product-name">Product</th>
+            <th class="li-product-price">Unit Price</th>
+            <th class="li-product-quantity">Quantity</th>
+            <th class="li-product-subtotal">Total</th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var item in Model)
+        {
+            <tr id="cartItem_@item.product.ProductId">
+                <td class="li-product-remove"><a style="cursor:pointer" onclick="handlerRemoveCart(@item.product.ProductId)"><i class="fa fa-times"></i></a></td>
+                @* <td class="li-product-remove"><a style="cursor:pointer" asp-controller="ShoppingCart" asp-action="RemoveCart" asp-route-productId="@item.product.ProductId"><i class="fa fa-times"></i></a></td> *@
+               @*  <td class="li-product-thumbnail"><a href="#"><img src="images/product/small-size/@item.product.Image" alt="Li's Product Image"></a></td>
+                <td class="li-product-name"><a href="#">@item.product.NameProduct</a></td>
+                <td class="li-product-price"><span class="amount">@item.product.Price</span></td>
+                <td class="quantity">
+                    <div style="width:100%">
+                        <input style="background:none;border:none;width:40%;margin:auto" min="1" max="1000" value="@item.quantity" type="number" onchange="handlerUpdateQuantity(@item.product.ProductId,this.value)">
+                    </div>
+                </td>
+                <td class="product-subtotal"><span class="amount">@item.total</span></td>
+            </tr>
+        }
+    </tbody> *@
+
+@* </table> *@ 
+@*                  <div class="row container" style="margin: auto;">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="coupon-all">
+                                        <div class="coupon2">
+                                            <a asp-controller="ShoppingCart" asp-action="CreateOrder"
+                                               class="button" style="display:flex;justify-content:center;align-items:center;cursor:pointer;background-color: #333; border: none; color: #fff; width: 120px; height: 40px;"
+                                               onmouseover="this.style.backgroundColor='#ffc107'" onmouseout=" this.style.backgroundColor='#333'">
+                                                Create Order
+                                            </a>
+                                            <input class="button" name="update_cart" value="Update cart" type="submit"> *@
+                                       @* </div>
+                                    </div>
+                                </div>
+                            </div>
+                         <div class="col-md-7 ml-auto">
+                                <div class="cart-page-total">
+                                    <h2>Cart totals</h2>
+                                    <ul>
+                                        <li>Subtotal <span id="subtotalAmount">@ViewBag.Total</span></li>
+                                        <li>Total <span id="totalAmount">@ViewBag.Total</span></li>
+                                    </ul>
+                                    <a href="#">Proceed to checkout</a>
+                                </div>
+                            </div> *@

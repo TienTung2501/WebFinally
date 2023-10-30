@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Data;
 using Web.Data;
 using Web.Models;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -40,13 +41,16 @@ builder.Services.AddSession(s =>
     s.Cookie.Name = "NguyenTienTung";// đặt tên cho session
     s.IdleTimeout = new TimeSpan(24, 0, 0);// thiết lập thời gian tồn tại session
 });
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options =>
+{
+    options.LoginPath = "/Account/Login"; // Đây là đường dẫn đến trang đăng nhập
+});
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 using (var scope = app.Services.CreateScope())

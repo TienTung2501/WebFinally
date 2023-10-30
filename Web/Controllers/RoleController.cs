@@ -3,9 +3,6 @@ using Web.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Web.Data;
-using Web.Models;
-
 namespace BTLWeb.Controllers
 {
     public class RoleController : Controller

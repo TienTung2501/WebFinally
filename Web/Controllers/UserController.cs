@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Security.Claims;
 using Web.ViewModels;
-
+// username:tung123/Tung.123
 namespace Web.Controllers
 {
     public class UserController : Controller
@@ -156,7 +156,7 @@ namespace Web.Controllers
             return View(model);
         }
 
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "admin")]// 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ManageClaims(UserClaimsViewModel userClaimsViewModel)

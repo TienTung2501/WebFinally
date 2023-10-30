@@ -5,6 +5,8 @@ using Newtonsoft.Json;
 using Microsoft.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
 using Web.Data;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace Web.Controllers
 {
@@ -73,7 +75,7 @@ namespace Web.Controllers
 
             // Lưu cart vào Session
             SaveCartSession(cart);
-            return Ok();
+            return PartialView("CartIconUpdate");
             // return RedirectToAction(nameof(Cart));
 
         }
@@ -106,6 +108,60 @@ namespace Web.Controllers
             }
             SaveCartSession(cart);
             return PartialView("CartItem",cart);
+        }
+        [Authorize (Roles="Admin,Customer")]
+        public IActionResult CreateOrder()
+        {
+            double totalOder = 0;
+            var user = HttpContext.User;
+            var userId = user.FindFirst(ClaimTypes.NameIdentifier).Value;
+
+
+            // Tạo một đơn đặt hàng mới
+            var newOrder = new TblOrder
+            {
+                UserId = userId,
+                Token = "", // Thêm token nếu cần
+                Status = "Chưa Giao", // Thêm trạng thái đơn đặt hàng
+                Total = 0, // Thêm tổng tiền ban đầu
+                CreatedAt = DateTime.Now
+            };
+
+            // Thêm đơn đặt hàng vào cơ sở dữ liệu
+            data.TblOrders.Add(newOrder);
+            data.SaveChanges();
+
+            var cart=GetCartItems();
+            // Lặp qua danh sách sản phẩm trong giỏ hàng
+            double totalOrder = 0;
+            foreach (var item in cart)
+            {
+                // Tạo một chi tiết đơn đặt hàng mới
+                var newOrderDetail = new TblOrderDetail
+                {
+                    ProductId = item.product.ProductId,
+                    OrderId = newOrder.OrderId,
+                    Price = item.product.Price,
+                    Discount = 0, // Thêm giảm giá nếu cần
+                    Quantity = item.quantity,
+                    CreatedAt = DateTime.Now
+                };
+
+                // Thêm chi tiết đơn đặt hàng vào cơ sở dữ liệu
+                data.TblOrderDetails.Add(newOrderDetail);
+
+                // Cập nhật tổng tiền của đơn đặt hàng
+                totalOrder += item.total;
+            }
+
+            // Cập nhật tổng tiền của đơn đặt hàng
+            newOrder.Total = totalOrder;
+            @ViewBag.Total=totalOrder;
+            data.SaveChanges(); // Lưu thay đổi vào cơ sở dữ liệu
+            ViewBag.OrderId = newOrder.OrderId;
+            ViewBag.OrderStatus = newOrder.Status;
+            ViewBag.DateOrder = newOrder.CreatedAt.ToString("dd/MM/yyyy");
+            return View("CreateOrder",cart);
         }
         public double updateTotal()
         {

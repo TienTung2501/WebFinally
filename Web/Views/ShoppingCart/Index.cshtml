@@ -62,7 +62,12 @@
                                     <div class="col-12">
                                         <div class="coupon-all">
                                             <div class="coupon2">
-                                                <input class="button" name="update_cart" value="Update cart" type="submit">
+                                            <a  asp-controller="ShoppingCart" asp-action="CreateOrder"
+                                                class="button" style="display:flex;justify-content:center;align-items:center;cursor:pointer;background-color: #333; border: none; color: #fff; width: 120px; height: 40px;"
+                                               onmouseover="this.style.backgroundColor='#ffc107'" onmouseout=" this.style.backgroundColor='#333'">
+                                                Create Order
+                                            </a>
+                                               @*  <input class="button" name="update_cart" value="Update cart" type="submit"> *@
                                             </div>
                                         </div>
                                     </div>
@@ -93,7 +98,8 @@
                     productId: id
                 }, 
                 success: function (data) {
-                    alert("THêm thành công");
+                    $("#cartIcon").html(data);
+                    alert("Thêm sản phẩm thành công");
                 },
                 error: function (data) {
                     alert("Có lỗi xảy ra khi thêm sản phẩm vào giỏ hàng");
