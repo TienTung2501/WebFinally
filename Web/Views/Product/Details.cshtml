@@ -1,0 +1,68 @@
+﻿
+@model List<TblProduct>
+<!-- Begin Li's Breadcrumb Area -->
+<div class="breadcrumb-area">
+    <div class="container">
+        <div class="breadcrumb-content">
+            <ul>              
+                <li class="active">Details</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- Li's Breadcrumb Area End Here -->
+<!-- content-wraper start -->
+
+<div class="content-wraper">
+    <div class="container">
+        <div class=" single-product-area">
+            <div class="col-lg-5 d-plex col-md-6">
+                <!-- Product Details Left -->
+                <div class="product-details-left">
+                    <div class="product-details-images slider-navigation-1">
+                        <div class="lg-image">
+                            <a class="popup-img venobox vbox-item" href="~/images/product/large-size/@Model[0].Image" data-gall="myGallery">
+                                <img src="~/images/product/large-size/@Model[0].Image" alt="product image">
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="col-lg-7 col-md-6">
+                    <div class="product-details-view-content pt-60">
+                        <div class="product-info">
+                            <h2>@Model[0].NameProduct</h2>
+                            <span class="product-details-ref">Reference: demo_15</span>
+                            <div class="rating-box pt-20">
+                                <ul class="rating rating-with-review-item">
+                                    <li><i class="fa fa-star-o"></i></li>
+                                    <li><i class="fa fa-star-o"></i></li>
+                                    <li><i class="fa fa-star-o"></i></li>
+                                    <li class="no-star"><i class="fa fa-star-o"></i></li>
+                                    <li class="no-star"><i class="fa fa-star-o"></i></li>
+                                    <li class="review-item"><a href="#">Read Review</a></li>
+                                    <li class="review-item"><a href="#">Write Review</a></li>
+                                </ul>
+                            </div>
+                            <div class="price-box pt-20">
+                                <span class="new-price new-price-2">@Model[0].Price$</span>
+                            </div>
+                            <div class="product-desc">
+                                <p>
+                                    <span>
+                                        @Model[0].Decription
+                                    </span>
+                                </p>
+                            </div>
+                       
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- content-wraper end -->
+
+

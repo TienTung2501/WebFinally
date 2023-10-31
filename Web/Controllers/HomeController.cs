@@ -31,9 +31,9 @@ namespace WebProgramming.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-        public IActionResult NewArrivals()
+        public IActionResult _NewArrivals()
         {
-            
+            //List<TblProduct> items = _context.TblProducts.Take(6).ToList();
             return View("_NewArrivals");
         }
 
@@ -42,11 +42,11 @@ namespace WebProgramming.Controllers
             return PartialView("BestSeller");
         }
 
-        public IActionResult PartialSamSung()
+        public IActionResult _PartialSamSungProducts()
         {
             return PartialView("_PartialSamsungProducts");
         }
-        public IActionResult PartialOppo()
+        public IActionResult _PartialOppoProducts()
         {
             return PartialView("_PartialOppoProducts");
         }

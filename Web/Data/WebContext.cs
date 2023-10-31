@@ -24,6 +24,7 @@ namespace Web.Data
         public virtual DbSet<TblOrder> TblOrders { get; set; } = null!;
         public virtual DbSet<TblOrderDetail> TblOrderDetails { get; set; } = null!;
         public virtual DbSet<TblProduct> TblProducts { get; set; } = null!;
+        public object TblCategory { get; internal set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
