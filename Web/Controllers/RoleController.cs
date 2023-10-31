@@ -18,7 +18,7 @@ namespace BTLWeb.Controllers
             _roleManager = roleManager;
         }
 
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "Admin")]
         public IActionResult Index()
         {
             var roles = _db.Roles.ToList();
@@ -26,7 +26,7 @@ namespace BTLWeb.Controllers
         }
 
 
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public IActionResult Upsert(string id)
         {
@@ -41,7 +41,7 @@ namespace BTLWeb.Controllers
             }
         }
 
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Upsert(IdentityRole role)
@@ -68,7 +68,7 @@ namespace BTLWeb.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(string id)

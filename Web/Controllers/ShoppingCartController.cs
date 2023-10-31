@@ -52,6 +52,7 @@ namespace Web.Controllers
         }
         public IActionResult AddToCart(int productId)
         {
+            
             var product = data.TblProducts
                 .Where(p => p.ProductId == productId)
                 .FirstOrDefault();
@@ -75,6 +76,7 @@ namespace Web.Controllers
 
             // Lưu cart vào Session
             SaveCartSession(cart);
+            ShowSession();
             return PartialView("CartIconUpdate");
             // return RedirectToAction(nameof(Cart));
 
@@ -172,6 +174,12 @@ namespace Web.Controllers
                 total += item.total;
             }
             return total;
+        }
+        public void ShowSession()
+        {
+            var value = HttpContext.Session.GetString(CARTKEY);
+            Console.WriteLine(value);
+            // Trong đó "KeyName" là tên của session bạn muốn xem.
         }
     }
 }
