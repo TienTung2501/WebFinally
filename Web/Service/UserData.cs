@@ -1,5 +1,5 @@
 ﻿using System.Security.Claims;
-using Web.Models;
+using Web.ViewModels;
 
 namespace Web.Service
 {

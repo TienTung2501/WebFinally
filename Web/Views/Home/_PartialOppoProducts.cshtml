@@ -1,6 +1,6 @@
 ﻿@using Web.Data;
 
-@model IEnumerable<Web.Models.TblProduct>
+@model IEnumerable<Web.ViewModels.TblProduct>
 @{
     WebContext _context = new WebContext();
     var OppoProducts = (from p in _context.TblProducts

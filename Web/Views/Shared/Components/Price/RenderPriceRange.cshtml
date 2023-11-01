@@ -1,0 +1,9 @@
+﻿
+
+@{
+    int step = (int)Math.Ceiling(Model / 5);
+    for (int i = 0; i <= (int)Math.Ceiling(Model);i+=step)
+    {
+        <ul><li><input type="radio" name="product-size" value="@i-@(i+step)" class="price-filter"><a href="#">$@i - $@(i + step)</a></li> </ul>
+    }
+}

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Web.Models
+namespace Web.ViewModels
 {
     [NotMapped]// không thêm model này vào csdl khi migration
     public class CartItem

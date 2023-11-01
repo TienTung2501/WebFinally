@@ -1,4 +1,4 @@
-﻿using Web.Models;
+﻿using Web.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;

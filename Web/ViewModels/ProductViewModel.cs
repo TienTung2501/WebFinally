@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
-using Web.Models;
+using Web.ViewModels;
 
 namespace Web.ViewModels
 {

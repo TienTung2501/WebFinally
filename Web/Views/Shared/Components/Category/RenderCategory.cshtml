@@ -1,12 +1,7 @@
 ﻿@model IEnumerable<TblCategory>
-
-<ul class="nav">
-    @foreach(var item in Model)
-    {
-        <li class="nav-item" id="@item.CategoryId">
-            <a class="nav-link fa-i-cursor ">@item.CategoryName</a>
-        </li>
-
-    }
+@foreach(var c in Model)
+{
+<ul>
+        <li><input type="checkbox" name="product-categori" class="category-filter"><a href="#">@c.CategoryName</a></li>
 </ul>
-
+}
