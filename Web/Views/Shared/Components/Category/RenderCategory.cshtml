@@ -1,0 +1,12 @@
+﻿@model IEnumerable<TblCategory>
+
+<ul class="nav">
+    @foreach(var item in Model)
+    {
+        <li class="nav-item" id="@item.CategoryId">
+            <a class="nav-link fa-i-cursor ">@item.CategoryName</a>
+        </li>
+
+    }
+</ul>
+

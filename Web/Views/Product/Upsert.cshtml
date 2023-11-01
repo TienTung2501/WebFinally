@@ -1,0 +1,117 @@
+﻿@* @using Web.Data; *@
+@model ProductViewModel
+@* @{
+    var context = new WebContext();
+    
+    var list = context.TblProducts.ToList();
+} *@
+<div class="card shadow border-0 my-4 pb-10">
+    <div class="card-header bg-secondary bg-gradient ml-0 py-3">
+        <div class="row">
+            <div class="col-12 text-center">
+                <h2 class="text-white py-2">@(Model.Product.ProductId != 0 ? "Update" : "Create") Product</h2>
+            </div>
+        </div>
+    </div>
+    <div class="pt-10">
+        <form method="post" class="row" enctype="multipart/form-data">
+            <div class="col-md-6">
+                <div class="border p-3">
+                    <div asp-validation-summary="ModelOnly"></div>
+                    <div class="form-floating py-2">
+                        <label asp-for="Product.NameProduct" class="ms-2"></label>
+                        <input asp-for="Product.NameProduct" class="form-control border" />
+                        <span asp-validation-for="Product.NameProduct" class="text-danger"></span>
+                    </div>
+                    <div class="form-floating py-2">                 
+                        <label asp-for="Product.CategoryId" class="ms-2"></label>
+                        <input asp-for="Product.CategoryId" class="form-control border" />
+                        <span asp-validation-for="Product.CategoryId" class="text-danger"></span>
+                    </div>
+                    <div class="py-2">
+                        <label asp-for="Product.Decription" class="ms-2 text-muted"></label>
+                        <textarea asp-for="Product.Decription" class="form-control border"></textarea>
+                        <span asp-validation-for="Product.Decription" class="text-danger"></span>
+                    </div>
+                    <div class="form-floating py-2">                       
+                        <label asp-for="Product.Price" class="ms-2 mb-2"></label>
+                        <input asp-for="Product.Price" class="form-control border" />
+                        <span asp-validation-for="Product.Price" class="text-danger"></span>
+                    </div>
+                    <div class="form-floating py-2">
+                        <label asp-for="Product.Discount" class="ms-2 mb-2"></label>
+                        <input asp-for="Product.Discount" class="form-control border" />
+                        <span asp-validation-for="Product.Discount" class="text-danger"></span>
+                    </div>
+                    <div class="form-floating py-2">
+                        <label asp-for="Product.Quantity" class="ms-2 mb-2"></label>
+                        <input asp-for="Product.Quantity" class="form-control border" />
+                        <span asp-validation-for="Product.Quantity" class="text-danger"></span>
+                    </div>
+                    <div class="form-floating py-2">
+                        <label asp-for="Product.CreatedAt" class="ms-2">CreateAt</label>
+                        <input asp-for="Product.CreatedAt" class="form-control border" type="datetime-local" />
+                        <span asp-validation-for="Product.CreatedAt" class="text-danger"></span>
+                    </div>
+                    <div class="form-floating py-2">
+                        <label asp-for="Product.UpdatedAt" class="ms-2">UpdateAt</label>
+                        <input asp-for="Product.UpdatedAt" class="form-control border" type="datetime-local" />
+                        <span asp-validation-for="Product.UpdatedAt" class="text-danger"></span>
+                    </div>
+                    <div class="form-floating py-2">
+                        <label asp-for="Product.PublishedAt" class="ms-2">PublishAt</label>
+                        <input asp-for="Product.PublishedAt" class="form-control border" type="datetime-local" />
+                        <span asp-validation-for="Product.PublishedAt" class="text-danger"></span>
+                    </div>
+                    <div class="form-floating py-2">
+                        <label asp-for="Product.StartsAt" class="ms-2">StartAt</label>
+                        <input asp-for="Product.StartsAt" class="form-control border" type="datetime-local" />
+                        <span asp-validation-for="Product.StartsAt" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-floating py-2">
+                        <label asp-for="Product.Image" class="ms-2"></label>
+                        <input asp-for="Product.Image" type="file" name="files" class="form-control border" multiple />                       
+                        <span asp-validation-for="Product.Image" class="text-danger"></span>
+                    </div>
+                    <div class="row pt-2">
+                        <div class="col-6" >
+                            @if (Model.Product.ProductId != 0)
+                            {
+                                <form asp-controller="Product" asp-action="Upsert" asp-route-id="@Model.Product.ProductId" >
+                                    <button type="submit" class="btn btn-primary form-control">Update</button>
+                                </form>
+                            }
+                            else
+                            {
+                                <form asp-controller="Product" asp-action="Upsert"  >
+                                    <button type="submit" class="btn btn-primary form-control">Create</button>
+                                </form>
+                            }
+                        </div>
+                        <div class="col-6">
+                            <a asp-controller="Product" asp-action="Index" class="btn btn-outline-primary border form-control">
+                                Back to List
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-2">
+                ...
+                
+            </div>
+
+
+        </form>
+    </div>
+</div>
+@section Scripts{
+    <script>
+        tinymce.init({
+            selector: 'textarea',
+            plugins: 'anchor autolink charmap codesample emoticons  lists   table visualblocks wordcount',
+            toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough |  align lineheight | numlist bullist indent outdent',
+        });
+    </script>
+}

@@ -1,0 +1,34 @@
+﻿@model IEnumerable<TblProduct>
+
+<table class="table align-content-center text-black border border-secondary">
+    <tr>
+        <th>NameProduct</th>
+        <th>CategoryID</th>
+        <th>Price</th>
+        <th>Discount</th>
+        <th>Quantity</th>
+        <th>StartsAt</th>
+        <th></th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.NameProduct</td>
+            <td>@item.CategoryId</td>
+            <td>@item.Price</td>
+            <td>@item.Discount</td>
+            <td>@item.Quantity</td>
+            <td>@item.StartsAt</td>
+            <td>
+                <div class="text-center">
+                    <form asp-action="Delete" asp-route-id="@item.ProductId">
+                        <a asp-action="Upsert" asp-route-id="@item.ProductId" class="btn btn-info text-white" style="cursor:pointer">
+                            Edit
+                        </a>
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                </div>
+            </td>
+        </tr>
+    }
+</table>
