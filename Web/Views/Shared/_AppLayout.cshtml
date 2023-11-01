@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -35,6 +35,7 @@
             <partial name="Footer"/>
         </footer>
     </div>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/js/vendor/modernizr-2.8.3.min.js"></script>
     <script src="~/js/vendor/jquery-1.12.4.min.js"></script>
     <!-- Popper js -->
@@ -77,8 +78,8 @@
     <script src="~/js/scrollUp.min.js"></script>
     <!-- Main/Activator js -->
     <script src="~/js/main.js"></script>
-    <script src="https://cdn.tiny.cloud/1/g28lhnxtlihu4l4a381gw7tz47voznshwbi10lmsvlekrfme/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
-    
-        @await RenderSectionAsync("Scripts", required: false)
+    @await RenderSectionAsync("AddToCart",required: false);
+    @await RenderSectionAsync("Scripts",required:false);
+    @await RenderSectionAsync("Paginate",required:false);
 </body>
 </html>
