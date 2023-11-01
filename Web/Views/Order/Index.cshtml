@@ -26,7 +26,7 @@
             <div class="col-12">
                 <form action="#">
                     <div class="table-content table-responsive">
-                        <div id="cartitem">
+                        <div id="content">
                             <table class="table table-striped">       
                                 <thead>
                                     <tr>
@@ -54,66 +54,57 @@
                                 </tbody>
                             </table>
                         </div>
+                        <nav aria-label="Page navigation example" class=" mt-10">
+                            <ul class="pagination d-flex justify-content-center">
+                                <li class="page-item previousPage" ><a class="page-link" id="1" onclick="handlerPrevious(this.att("id").value>1?1:@ViewBag.CurrentPage-1,@ViewBag.pagesize,@ViewBag.pageCount)">Previous</a></li>
+                                @for (var i = 1;i <= ViewBag.pageCount; i++){
+                                    ViewBag.CurrentPage = i;
+                                    if (i == 1)
+                                    {
+                                        
+                                    <li class="page-item active" id="paginate_@i"><a class="page-link" onclick="functionHandlerPaginate(@i,@ViewBag.pageSize,@ViewBag.pageCount)">@i</a></li>
+                                    }
+                                    else{
+                                        <li class="page-item" id="paginate_@i"><a class="page-link" onclick="functionHandlerPaginate(@i,@ViewBag.pageSize,@ViewBag.pageCount)">@i</a></li>
+                                        }
+                                    }
+                                <li class="page-item"><a class="page-link" onclick="handlerNext(@ViewBag.CurrentPage<@ViewBag.pageCount?@ViewBag.CurrentPage+1:@ViewBag.pageCount,@ViewBag.pagesize,@ViewBag.pageCount)">Next</a></li>
+                            </ul>
+                        </nav>
                     </div>
                 </form>
             </div>
         </div>
     </div>
 </div>
-@* <table class="table">
-    <thead>
-        <tr>
-            <th class="li-product-remove">Mã Hóa đơ</th>
-            <th class="li-product-thumbnail">images</th>
-            <th class="cart-product-name">Product</th>
-            <th class="li-product-price">Unit Price</th>
-            <th class="li-product-quantity">Quantity</th>
-            <th class="li-product-subtotal">Total</th>
-        </tr>
-    </thead>
-    <tbody>
+@section Paginate{
+    <script>
+        function functionHandlerPaginate(page, pageSize,pageCount) {
+            $.ajax({
+                url: '/Order/Paginate',
+                data: { page: page, pageSize: pageSize },
+                success: function (data) {
+                    $("#content").html(data);
+                    for (var i = 1; i <= pageCount; i++) {
+                        $(`#paginate_${i}`).removeClass("active");
+                    }
+                    $(`#paginate_${page}`).addClass("active");
+                    $("li.previousPage").att('id').value = `${page}`;
 
-        @foreach (var item in Model)
-        {
-            <tr id="cartItem_@item.product.ProductId">
-                <td class="li-product-remove"><a style="cursor:pointer" onclick="handlerRemoveCart(@item.product.ProductId)"><i class="fa fa-times"></i></a></td>
-                @* <td class="li-product-remove"><a style="cursor:pointer" asp-controller="ShoppingCart" asp-action="RemoveCart" asp-route-productId="@item.product.ProductId"><i class="fa fa-times"></i></a></td> *@
-               @*  <td class="li-product-thumbnail"><a href="#"><img src="images/product/small-size/@item.product.Image" alt="Li's Product Image"></a></td>
-                <td class="li-product-name"><a href="#">@item.product.NameProduct</a></td>
-                <td class="li-product-price"><span class="amount">@item.product.Price</span></td>
-                <td class="quantity">
-                    <div style="width:100%">
-                        <input style="background:none;border:none;width:40%;margin:auto" min="1" max="1000" value="@item.quantity" type="number" onchange="handlerUpdateQuantity(@item.product.ProductId,this.value)">
-                    </div>
-                </td>
-                <td class="product-subtotal"><span class="amount">@item.total</span></td>
-            </tr>
+                    console.log(page);
+                },
+                error: function () {
+                    alert("Có lỗi xảy ra khi phân trang");
+                }
+            });
         }
-    </tbody> *@
-
-@* </table> *@ 
-@*                  <div class="row container" style="margin: auto;">
-                            <div class="row">
-                                <div class="col-12">
-                                    <div class="coupon-all">
-                                        <div class="coupon2">
-                                            <a asp-controller="ShoppingCart" asp-action="CreateOrder"
-                                               class="button" style="display:flex;justify-content:center;align-items:center;cursor:pointer;background-color: #333; border: none; color: #fff; width: 120px; height: 40px;"
-                                               onmouseover="this.style.backgroundColor='#ffc107'" onmouseout=" this.style.backgroundColor='#333'">
-                                                Create Order
-                                            </a>
-                                            <input class="button" name="update_cart" value="Update cart" type="submit"> *@
-                                       @* </div>
-                                    </div>
-                                </div>
-                            </div>
-                         <div class="col-md-7 ml-auto">
-                                <div class="cart-page-total">
-                                    <h2>Cart totals</h2>
-                                    <ul>
-                                        <li>Subtotal <span id="subtotalAmount">@ViewBag.Total</span></li>
-                                        <li>Total <span id="totalAmount">@ViewBag.Total</span></li>
-                                    </ul>
-                                    <a href="#">Proceed to checkout</a>
-                                </div>
-                            </div> *@
+        function handlerPrevious(page, pageSize, pageCount) {
+            functionHandlerPaginate(page, pageSize, pageCount);
+            console.log(page);
+        }
+        function handlerNext(page, pageSize, pageCount) {
+            functionHandlerPaginate(page, pageSize, pageCount);
+            console.log(page);
+        }
+    </script>
+}

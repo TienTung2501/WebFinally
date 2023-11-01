@@ -21,9 +21,24 @@ namespace Web.Controllers
             UserID = user.FindFirst(ClaimTypes.NameIdentifier).Value;
             var orderlist=data.TblOrders.Include(m=>m.User).Where(m=>m.UserId==UserID).ToList();
             ViewBag.Username = user.FindFirst(ClaimTypes.Name).Value;
+            int pageSize = 5;
+            ViewBag.pageCount=(int)Math.Ceiling((double)orderlist.Count/pageSize);
+            ViewBag.PageSize = pageSize;
+            orderlist=orderlist.Take(pageSize).ToList();
             return View(orderlist);
         }
-        public IActionResult OrderDetail(int id,string status,DateTime date) {
+        public IActionResult Paginate(int page, int pageSize)
+
+        {
+            var user = HttpContext.User;
+            UserID = user.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var orderlist = data.TblOrders.Include(m => m.User).Where(m => m.UserId == UserID).ToList();
+            ViewBag.pageCount=(int)Math.Ceiling((double)orderlist.Count/pageSize);
+            orderlist=orderlist.Skip((page - 1)*pageSize).Take(pageSize).ToList();
+            ViewBag.CurrentPage = page;
+            return PartialView("OrderList", orderlist);
+        }
+        public IActionResult OrderDetail(long id,string status,DateTime date) {
             ViewBag.ID = id;
             ViewBag.Status = status;
             ViewBag.Date = date.ToString("dd/MM/yyyy");
@@ -33,6 +48,7 @@ namespace Web.Controllers
             {
                 total += order.Quantity * order.Price;
             }
+           
             ViewBag.Total = total;
             return View(orderDetail);
         }
