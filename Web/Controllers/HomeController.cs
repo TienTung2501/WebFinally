@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
-using Web.Models;
+using Web.ViewModels;
 using Microsoft.EntityFrameworkCore;
 using Web.Data;
 

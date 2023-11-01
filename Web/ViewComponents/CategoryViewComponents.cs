@@ -1,24 +1,21 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Web.Data;
-using Web.Models;
+using Web.ViewModels;
 
 namespace Web.ViewComponents
 {
-    [ViewComponent(Name = "Category")] // Add the ViewComponentAttribute with the appropriate name
-    public class TblCategoryViewComponent : ViewComponent // Rename the class to end with 'ViewComponent'
+    public class  CategoryViewComponent:ViewComponent
     {
-        private readonly WebContext _context;
-        public TblCategoryViewComponent(WebContext context)
+        private WebContext db;
+        List<TblCategory> categorys;
+        public CategoryViewComponent(WebContext _context)
         {
-            _context = context;
+            db = _context;
+            categorys = db.TblCategories.ToList();
         }
-
         public async Task<IViewComponentResult> InvokeAsync()
         {
-            var categories = await _context.TblCategories.ToListAsync(); // Assuming TblCategories is the DbSet for your categories
-            return View("RenderCategory", categories);
+            return View("RenderCategory", categorys);
         }
     }
 

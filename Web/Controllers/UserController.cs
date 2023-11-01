@@ -1,6 +1,6 @@
 ﻿/*using BTLWeb.Data;*/
 using Web.Data;
-using Web.Models;
+using Web.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
