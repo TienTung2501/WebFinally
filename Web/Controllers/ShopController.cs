@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace BTLWeb.Controllers
+namespace Web.Controllers
 {
     public class ShopController : Controller
     {

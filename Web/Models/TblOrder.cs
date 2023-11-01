@@ -17,7 +17,8 @@ namespace Web.Models
         public double Total { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
-
+        public string UserId { get; set; }
+        public AppUser User { get; set; }
         public virtual ICollection<TblBill> TblBills { get; set; }
         public virtual ICollection<TblOrderDetail> TblOrderDetails { get; set; }
     }

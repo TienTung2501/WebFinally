@@ -153,3 +153,35 @@
     </div>
     <!-- Li's Static Home Area End Here -->
 </div>
+@section AddToCart{
+    <script>
+        function handlerAddToCart(id) {
+
+           $.ajax({
+                url: '/ShoppingCart/AddToCart',
+                type: 'POST',
+                data: {
+                    productId: id
+                },
+                success: function (data) {
+                    $("div#alert").html(data)
+
+                },
+                error: function () {
+                    alert("Có lỗi xảy ra khi thêm sản phẩm vào giỏ hàng");
+                }
+            });
+        }
+    </script>
+}
+        @*    /*  $.ajax({
+                url: '/ShoppingCart/AddToCart', // Địa chỉ của action "AddToCart" trong controller "ShoppingCart"
+                type: 'POST',
+                data: { productId: id },
+                success: function (data) {
+                    alert("Sản phẩm đã được thêm vào giỏ hàng");
+                },
+                error: function () {
+                    alert("Có lỗi xảy ra khi thêm sản phẩm vào giỏ hàng");
+                }
+            }); */ *@

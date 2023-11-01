@@ -1,0 +1,30 @@
+﻿@model UserRoleViewModel //dùng ienumrate khi truyền vào list còn truyền vào đơn thì dùng 1 đối tượng
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<h1 class="text-info">Edit User</h1>
+
+<div class="row">
+    <div class="col-md-8">
+        <form method="post" asp-action="Edit">
+            <input asp-for="@Model.UserId" hidden />
+            <hr />
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="@Model.UserEmail"></label>
+                <input asp-for="@Model.UserEmail" class="form-control" /> @* readonly *@
+                <input asp-for="@Model.UserEmail" hidden />
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.RoleId"></label>
+                <select asp-for="@Model.RoleId" asp-items="@ViewBag.RoleList" class="form-control">
+                    <option disabled selected>--Select Role--</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-success">Update</button>
+                <a asp-action="Index" class="btn btn-warning" style="width:auto">Back to User</a>
+            </div>
+        </form>
+    </div>
+</div>

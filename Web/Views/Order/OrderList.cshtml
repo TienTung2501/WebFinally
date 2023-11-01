@@ -1,0 +1,30 @@
+﻿@model List<Web.Models.TblOrder>
+@{
+    ViewBag.CurrentPage = ViewBag.CurrentPage;
+}
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Date</th>
+            <th>Total</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var o in Model)
+        {
+            <tr>
+                <td>Order#@o.OrderId</td>
+                <td>@o.CreatedAt</td>
+                <td>@o.Total</td>
+                <td>@o.Status</td>
+                <td>
+                    <a asp-action="OrderDetail" asp-controller="Order" class="btn btn-outline-info" asp-route-id="@o.OrderId"
+                       asp-route-date="@o.CreatedAt" asp-route-status="@o.Status">Detail</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

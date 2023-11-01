@@ -1,0 +1,110 @@
+﻿@model List<Web.Models.TblOrder>
+@{
+    ViewData["Title"] = "Order";
+}
+
+<div class="d-flex justify-content-between align-items-center px-5 mt-100">
+    <h1 style="font-size:20px;font-weight:600;margin-bottom:auto">
+        <span style="font-size:20px;font-weight:600;color:#1b75d0;font-style:italic"> Order List</span>
+    </h1>
+    <div class="d-flex">
+        <span style="font-size:20px;font-weight:500;color:#f52424" class="pr-10">
+            Name:
+        </span>
+        <span style="font-size:20px;font-weight:500;color:#f52424">
+            @ViewBag.Username
+        </span>
+
+    </div>
+
+</div>
+<!-- Li's Breadcrumb Area End Here -->
+<!--Shopping Cart Area Strat-->
+<div class="Shopping-cart-area pt-20 pb-60">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <form action="#">
+                    <div class="table-content table-responsive">
+                        <div id="content">
+                            <table class="table table-striped">       
+                                <thead>
+                                    <tr>
+                                        <th>Id</th>
+                                        <th>Date</th>
+                                        <th>Total</th>
+                                        <th>Status</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var o in Model)
+                                    {
+                                        <tr>
+                                            <td>Order#@o.OrderId</td>
+                                            <td>@o.CreatedAt</td>
+                                            <td>@o.Total</td>
+                                            <td>@o.Status</td>
+                                            <td>
+                                                <a asp-action="OrderDetail" asp-controller="Order" class="btn btn-outline-info" asp-route-id="@o.OrderId" 
+                                               asp-route-date="@o.CreatedAt" asp-route-status="@o.Status">Detail</a>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                        <nav aria-label="Page navigation example" class=" mt-10">
+                            <ul class="pagination d-flex justify-content-center">
+                                <li class="page-item previousPage" ><a class="page-link" id="1" onclick="handlerPrevious(this.att("id").value>1?1:@ViewBag.CurrentPage-1,@ViewBag.pagesize,@ViewBag.pageCount)">Previous</a></li>
+                                @for (var i = 1;i <= ViewBag.pageCount; i++){
+                                    ViewBag.CurrentPage = i;
+                                    if (i == 1)
+                                    {
+                                        
+                                    <li class="page-item active" id="paginate_@i"><a class="page-link" onclick="functionHandlerPaginate(@i,@ViewBag.pageSize,@ViewBag.pageCount)">@i</a></li>
+                                    }
+                                    else{
+                                        <li class="page-item" id="paginate_@i"><a class="page-link" onclick="functionHandlerPaginate(@i,@ViewBag.pageSize,@ViewBag.pageCount)">@i</a></li>
+                                        }
+                                    }
+                                <li class="page-item"><a class="page-link" onclick="handlerNext(@ViewBag.CurrentPage<@ViewBag.pageCount?@ViewBag.CurrentPage+1:@ViewBag.pageCount,@ViewBag.pagesize,@ViewBag.pageCount)">Next</a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@section Paginate{
+    <script>
+        function functionHandlerPaginate(page, pageSize,pageCount) {
+            $.ajax({
+                url: '/Order/Paginate',
+                data: { page: page, pageSize: pageSize },
+                success: function (data) {
+                    $("#content").html(data);
+                    for (var i = 1; i <= pageCount; i++) {
+                        $(`#paginate_${i}`).removeClass("active");
+                    }
+                    $(`#paginate_${page}`).addClass("active");
+                    $("li.previousPage").att('id').value = `${page}`;
+
+                    console.log(page);
+                },
+                error: function () {
+                    alert("Có lỗi xảy ra khi phân trang");
+                }
+            });
+        }
+        function handlerPrevious(page, pageSize, pageCount) {
+            functionHandlerPaginate(page, pageSize, pageCount);
+            console.log(page);
+        }
+        function handlerNext(page, pageSize, pageCount) {
+            functionHandlerPaginate(page, pageSize, pageCount);
+            console.log(page);
+        }
+    </script>
+}

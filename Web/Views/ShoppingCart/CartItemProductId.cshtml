@@ -1,0 +1,13 @@
+﻿@model Web.Models.CartItem
+
+<td class="li-product-remove"><a style="cursor:pointer" onclick="handlerRemoveCart(@Model.product.ProductId)"><i class="fa fa-times"></i></a></td>
+@* <td class="li-product-remove"><a style="cursor:pointer" asp-controller="ShoppingCart" asp-action="RemoveCart" asp-route-productId="@item.product.ProductId"><i class="fa fa-times"></i></a></td> *@
+<td class="li-product-thumbnail"><a href="#"><img src="images/product/small-size/@Model.product.Image" alt="Li's Product Image"></a></td>
+<td class="li-product-name"><a href="#">@Model.product.NameProduct</a></td>
+<td class="li-product-price"><span class="amount">@Model.product.Price</span></td>
+<td class="quantity">
+    <div style="width:100%">
+        <input style="background:none;border:none;width:40%;margin:auto" min="1" max="1000" value="@Model.quantity" type="number" onchange="handlerUpdateQuantity(@Model.product.ProductId,this.value)">
+    </div>
+</td>
+<td class="product-subtotal"><span class="amount">@Model.total</span></td>

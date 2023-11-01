@@ -1,7 +1,9 @@
-﻿using System.Security.Claims;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.Security.Claims;
 
 namespace Web.Models
 {
+    [NotMapped]// không thêm model này vào csdl khi migration
     public class ClaimStore
     {
         public static List<Claim> claimsList = new()

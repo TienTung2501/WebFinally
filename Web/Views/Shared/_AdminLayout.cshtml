@@ -1,0 +1,36 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="~/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="~/css/admin.css"/>
+    <title>@ViewData["Title"] - WebProgramming</title>
+</head>
+<body id="page-top">
+
+    <div id="wrapper">
+    <!-- Sidebar -->
+    <partial name="_AdminSideBar"/>
+    <!-- End of Sidebar -->
+        <div id="content-wrapper" class="d-flex flex-column">
+            <div id="content">
+            <partial name="_AdminTopbar" />
+            <div class="container-fluid">
+                @RenderBody()
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script src="~/js/jquery.js"></script>
+<script src="~/js/boostrap.bundle.js"></script>
+
+<!-- Core plugin JavaScript-->
+<script src="~/js/jquery.easing.js"></script>
+
+<!-- Custom scripts for all pages-->
+<script src="~/js/admin.js"></script>
+
+
