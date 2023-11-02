@@ -1,7 +1,20 @@
 ﻿@model List<Web.ViewModels.CartItem>
+@using Microsoft.AspNetCore.Http
+@using Newtonsoft.Json
+@inject IHttpContextAccessor HttpContextAccessor
 @{
     ViewData["Title"] = "Shoping Cart";
     double total = 0;
+    List<CartItem>
+           cart = new List<CartItem>
+       ();
+    const string CARTKEY = "cart";
+    var session = HttpContextAccessor.HttpContext.Session;
+    string jsoncart = session.GetString(CARTKEY);
+    if (jsoncart != null)
+    {
+        cart = JsonConvert.DeserializeObject<List<CartItem>>(jsoncart);
+    }
    
 }
 
@@ -62,10 +75,10 @@
                                     <div class="col-12">
                                         <div class="coupon-all">
                                             <div class="coupon2">
-                                            <a  asp-controller="ShoppingCart" asp-action="CreateOrder"
-                                                class="button" style="display:flex;justify-content:center;align-items:center;cursor:pointer;background-color: #333; border: none; color: #fff; width: 120px; height: 40px;"
+                                            <a asp-controller="Order" asp-action="Index"
+                                               class="button" style="display:flex;justify-content:center;align-items:center;cursor:pointer;background-color: #333; border: none; color: #fff; width: 120px; height: 40px;"
                                                onmouseover="this.style.backgroundColor='#ffc107'" onmouseout=" this.style.backgroundColor='#333'">
-                                                Create Order
+                                                More Order
                                             </a>
                                                @*  <input class="button" name="update_cart" value="Update cart" type="submit"> *@
                                             </div>
@@ -79,7 +92,12 @@
                                         <li>Subtotal <span id="subtotalAmount">@ViewBag.Total</span></li>
                                         <li>Total <span id="totalAmount">@ViewBag.Total</span></li>
                                         </ul>
-                                        <a href="#">Proceed to checkout</a>
+                                    
+                                    <a onclick="handlerCreateCart()"
+                                       class="button" style="display:flex;justify-content:center;align-items:center;cursor:pointer;background-color: #333; border: none; color: #fff; width: 150px; height: 40px;"
+                                       onmouseover="this.style.backgroundColor='#ffc107'" onmouseout=" this.style.backgroundColor='#333'">
+                                        Create Order
+                                    </a>
                                     </div>
                                 </div>
                             </div>
@@ -89,24 +107,8 @@
         </div>
     </div>
 </div>
-@section AddToCart{
+@section CartProcess{
     <script>
-        function handlerAddToCart(id) {
-            $.ajax({
-                url: '/ShoppingCart/AddToCart',
-                data: {
-                    productId: id
-                }, 
-                success: function (data) {
-                    $("#cartIcon").html(data);
-                    alert("Thêm sản phẩm thành công");
-                },
-                error: function (data) {
-                    alert("Có lỗi xảy ra khi thêm sản phẩm vào giỏ hàng");
-                }
-            });
-         }
-
        function handlerRemoveCart(id) {
             $.ajax({
                 url: '/ShoppingCart/RemoveCart',
@@ -115,8 +117,8 @@
                 },
                 success: function (data) {
                     $("#cartitem").html(data);
-                    alert("Xóa thành công");
                     reUpdateTotal();
+                    alert("Xóa thành công");
                 },
                 error: function () {
                     alert("Có lỗi xảy ra, xóa thất bại");
@@ -149,6 +151,19 @@
             // Cập nhật giá trị total trên trang web
             $("#subtotalAmount").text(total);
             $("#totalAmount").text(total);
+        }
+        function handlerCreateCart() {
+        
+            var itemOncartCurents = $("#cartItem table tbody tr");
+            if (`itemOncartCurents.length ===0`) {
+                alert("Giỏ hàng đang rỗng vui lòng chọn sản phẩm bạn muốn mua");
+            }
+            
+            else {
+                
+                alert("Đã tạo order");
+                window.location.href = "/ShoppingCart/CreateOrder";
+            }
         }
     </script>
  }

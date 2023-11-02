@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -78,8 +78,27 @@
     <script src="~/js/scrollUp.min.js"></script>
     <!-- Main/Activator js -->
     <script src="~/js/main.js"></script>
-    @await RenderSectionAsync("AddToCart",required: false);
-    @await RenderSectionAsync("Scripts",required:false);
-    @await RenderSectionAsync("Paginate",required:false);
+    <script src="/_framework/aspnetcore-browser-refresh.js"></script>
+    <script>
+        function showAlert(message, type) {
+            $("#alert-container").show();
+            $("#alert-box").addClass(type);
+            $("#alert-box").html(message);
+        }
+
+        function closeAlert() {
+            $("#alert-container").hide();
+            $("#alert-box").removeClass();
+        }
+    </script>
+@*     <script>
+        $(document).on('click', '#cartIcon .hm-minicart-trigger', function () {
+            console.log("Clicked on cart icon");
+            // Xử lý sự kiện khi click vào giỏ hàng
+        });
+    </script> *@
+    @RenderSection("CartProcess",required: false);
+    @RenderSection("Scripts",required:false);
+    @RenderSection("Paginate",required:false);
 </body>
 </html>

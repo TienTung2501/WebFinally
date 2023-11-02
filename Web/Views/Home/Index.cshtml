@@ -153,35 +153,41 @@
     </div>
     <!-- Li's Static Home Area End Here -->
 </div>
-@section AddToCart{
+@section CartProcess{
     <script>
         function handlerAddToCart(id) {
-
-           $.ajax({
+            $.ajax({
                 url: '/ShoppingCart/AddToCart',
-                type: 'POST',
                 data: {
                     productId: id
                 },
                 success: function (data) {
-                    $("div#alert").html(data)
-
+                    $("#cartIcon").html(data);
+                    alert("thêm thành công thành công");
                 },
-                error: function () {
+                error: function (data) {
                     alert("Có lỗi xảy ra khi thêm sản phẩm vào giỏ hàng");
                 }
             });
-        }
+         }
+        $(document).on('click', '#cartIcon .hm-minicart-trigger', function () {
+            console.log("Clicked on cart icon");
+            var activeMinicart = $('#active-minicart'); // Chọn phần tử có id active-minicart
+
+            if (activeMinicart.hasClass('is-active')) {
+                activeMinicart.removeClass('is-active'); // Nếu đã có lớp is-active, hủy nó đi
+            } else {
+                activeMinicart.addClass('is-active'); // Nếu chưa có lớp is-active, thêm nó vào
+            }
+            var displayMinicart = $('#display-minicart'); // Chọn phần tử có id display-minicart
+
+            if (displayMinicart.css('display') === 'block') {
+                displayMinicart.css('display', 'none'); // Nếu display là block, đặt display thành none
+            } else {
+                displayMinicart.css('display', 'block'); // Nếu display không phải block, đặt display thành block
+            }
+        });
+        
     </script>
-}
-        @*    /*  $.ajax({
-                url: '/ShoppingCart/AddToCart', // Địa chỉ của action "AddToCart" trong controller "ShoppingCart"
-                type: 'POST',
-                data: { productId: id },
-                success: function (data) {
-                    alert("Sản phẩm đã được thêm vào giỏ hàng");
-                },
-                error: function () {
-                    alert("Có lỗi xảy ra khi thêm sản phẩm vào giỏ hàng");
-                }
-            }); */ *@
+ }
+

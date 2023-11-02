@@ -69,12 +69,11 @@
                                 <div class="col-12">
                                     <div class="coupon-all">
                                         <div class="coupon2">
-                                            <a asp-controller="ShoppingCart" asp-action="CreateOrder"
+                                            <a asp-controller="Order" asp-action="Index"
                                                class="button" style="display:flex;justify-content:center;align-items:center;cursor:pointer;background-color: #333; border: none; color: #fff; width: 120px; height: 40px;"
                                                onmouseover="this.style.backgroundColor='#ffc107'" onmouseout=" this.style.backgroundColor='#333'">
                                                 More Order
                                             </a>
-                                            @*  <input class="button" name="update_cart" value="Update cart" type="submit"> *@
                                         </div>
                                     </div>
                                 </div>
@@ -86,7 +85,6 @@
                                         <li>Subtotal <span id="subtotalAmount">@ViewBag.Total</span></li>
                                         <li>Total <span id="totalAmount">@ViewBag.Total</span></li>
                                     </ul>
-                                   @*  <a href="#">Proceed to checkout</a> *@
                                 </div>
                             </div>
                         </div>

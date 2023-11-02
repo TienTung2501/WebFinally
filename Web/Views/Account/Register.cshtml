@@ -2,7 +2,7 @@
 
 <div asp-validation-summary="All" class="text-danger"></div>
 <h1 style="padding-left:15px">Register</h1>
-<form asp-controller="Account" asp-action="Register" method="post" role="form">
+<form asp-controller="Account" asp-action="Register" method="post" role="form" asp-route-returnUrl="@ViewData["ReturnUrl"]">
     <h4 style="padding-left:15px;margin-bottom:15px">Create a new account</h4>
     <div class="form-group">
         <label asp-for="Email" class="col-md-2"></label>

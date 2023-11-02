@@ -44,15 +44,16 @@ namespace Web.Controllers
             session.SetString(CARTKEY, jsoncart);
         }
         // Hiện thị giỏ hàng
-        [Route("/cart", Name = "cart")]
-        public IActionResult Cart()
+/*        [Route("/cart", Name = "cart")]*/
+        public IActionResult Index()
         {
             ViewBag.Total = updateTotal();
-            return View("Index", GetCartItems());
+            return View(GetCartItems());
         }
+
         public IActionResult AddToCart(int productId)
         {
-            
+            Console.WriteLine(productId);
             var product = data.TblProducts
                 .Where(p => p.ProductId == productId)
                 .FirstOrDefault();
@@ -76,12 +77,9 @@ namespace Web.Controllers
 
             // Lưu cart vào Session
             SaveCartSession(cart);
-            ShowSession();
-            return PartialView("CartIconUpdate");
-            // return RedirectToAction(nameof(Cart));
-
+            return PartialView("CartIconUpdate",cart);
         }
-       
+
         public IActionResult UpdateCart(int productId, int quantity)
         {
             // Cập nhật Cart thay đổi số lượng quantity ...
@@ -114,9 +112,10 @@ namespace Web.Controllers
         [Authorize (Roles="Admin,Customer")]
         public IActionResult CreateOrder()
         {
-            double totalOder = 0;
+            double totalOder = 0;// tính tổng tiền của 1 oder
             var user = HttpContext.User;
-            var userId = user.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var userId = user.FindFirst(ClaimTypes.NameIdentifier).Value;// lấy user id của user hiện tại đang đăng nhập vào hệ thống
+            // lấy qua đối tượng httpcontext quản lý thông tin của user.
 
 
             // Tạo một đơn đặt hàng mới
@@ -130,7 +129,8 @@ namespace Web.Controllers
             };
 
             // Thêm đơn đặt hàng vào cơ sở dữ liệu
-            data.TblOrders.Add(newOrder);
+            data.TblOrders.Add(newOrder);// thêm đơn đặt hàng vì nếu không thêm đơn đặt hàng trước khi thêm order detail thì sẽ bị lỗi 
+            // do ràng buộc khóa ngoại
             data.SaveChanges();
 
             var cart=GetCartItems();
@@ -158,11 +158,12 @@ namespace Web.Controllers
 
             // Cập nhật tổng tiền của đơn đặt hàng
             newOrder.Total = totalOrder;
-            @ViewBag.Total=totalOrder;
+            @ViewBag.Total=totalOrder;// truyền tổng tiền sang view để hiển thị
             data.SaveChanges(); // Lưu thay đổi vào cơ sở dữ liệu
             ViewBag.OrderId = newOrder.OrderId;
             ViewBag.OrderStatus = newOrder.Status;
             ViewBag.DateOrder = newOrder.CreatedAt.ToString("dd/MM/yyyy");
+            ClearCart();
             return View("CreateOrder",cart);
         }
         public double updateTotal()

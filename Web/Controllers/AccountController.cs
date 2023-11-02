@@ -8,9 +8,9 @@ namespace BTLWeb.Controllers
 {
     public class AccountController : Controller
     {
-        private readonly UserManager<AppUser> _userManager;
-        private readonly SignInManager<AppUser> _signInManager;
-        private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly UserManager<AppUser> _userManager;//là một đối tượng sử dụng để thực hiện các tác vụ liên quan đến quản lý người dùng, chẳng hạn như tạo, xóa, cập nhật người dùng,claim
+        private readonly SignInManager<AppUser> _signInManager;//là đối tượng cho phép thực hiện đăng nhập và đăng xuất người dùng. Nó cung cấp các phương thức cho việc xác thực thông tin đăng nhập, tạo phiên làm việc, và nhiều tác vụ khác liên quan đến đăng nhập.
+        private readonly RoleManager<IdentityRole> _roleManager;//là đối tượng được sử dụng để thực hiện các tác vụ quản lý vai trò (roles). Vai trò là một cách để tổ chức và kiểm soát quyền truy cập trong ứng dụng của bạn. Bạn có thể tạo, chỉnh sửa, xóa vai trò bằng RoleManager.
         //private readonly ISendGridEmail _sendGridEmail;
 
         public AccountController(UserManager<AppUser> userManager,
@@ -84,16 +84,20 @@ namespace BTLWeb.Controllers
         }
 
         [HttpGet]
-        public IActionResult Login(string? returnUrl = null)
+        public IActionResult Login(string? returnUrl = null)// route muốn truy cập sau khi đăng nhập// lấy từ url của người dùng khi thực hiện phương thức get trên thanh url
+            // trong trường hợp cụ thể thì khi một người đăng nhập vào thì sẽ được điều hướng đến 1 url cụ thể nào đó.
         {
-            LoginViewModel loginViewModel = new()
+            LoginViewModel loginViewModel = new()// tạo đối tượng login để lưu trữ được các dữ liệu gửi từ view lên
             {
-                ReturnUrl = returnUrl ?? Url.Content("~/")
+                ReturnUrl = returnUrl ?? Url.Content("~/")//gán thuộc tính route muốn đến của login bằng thằng truyền vào
+
+                //được sử dụng để chuyển đổi đường dẫn tương đối sang đường dẫn tuyệt đối.
             };
+            ViewData["ReturnUrl"] = returnUrl ?? Url.Content("~/");
             return View(loginViewModel);
         }
 
-        [HttpPost]
+        [HttpPost]// kết hợp thuộc tính post và yêu cầu csrf một cơ chế bảo mật
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginViewModel loginViewModel, string? returnUrl = null)
         {
@@ -102,24 +106,32 @@ namespace BTLWeb.Controllers
                 var result = await _signInManager.PasswordSignInAsync(loginViewModel.UserName,
                                                                 loginViewModel.Password,
                                                                 loginViewModel.RememberMe,
-                                                                lockoutOnFailure: true);
-                if (result.Succeeded)
+                                                                lockoutOnFailure: true);// kiểm tra xác thực người dùng
+                if (result.Succeeded)// nếu xác thực thành công rồi-> đăng nhập và có một số lựa chọn
                 {
-                    if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
+                    var user = await _userManager.FindByNameAsync(loginViewModel.UserName);
+                    var roles = await _userManager.GetRolesAsync(user);
+
+                    if (roles.Contains("Admin"))
+                    {
+                        return Redirect("/user"); // Chuyển hướng đến trang /user nếu người dùng có vai trò "Admin"
+                    }
+                    if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))// kiểm tra xem url truyền vào có rỗng không
+                        // nếu không rỗng và bằng url hiện tại bằng url truyền vào thì cho về trang ban đầu
                     {
                         return Redirect(returnUrl); // Chuyển hướng đến trang ban đầu sau đăng nhập
                     }
-                    else
+                    else// nếu rỗng chuyển sang trang index
                     {
                         return RedirectToAction("Index", "Home"); // Hoặc chuyển hướng đến trang mặc định
                     }
                 }
 
-                if (result.IsLockedOut)
+                if (result.IsLockedOut)// nếu người dùng đăng nhập quá nhiều  thì khóa
                 {
                     return RedirectToAction("Index", "Home");
                 }
-                else
+                else // một vài lần
                 {
                     ModelState.AddModelError(string.Empty, "Không đúng tên tài khoản hoặc mật khẩu");
                     return View(loginViewModel);
@@ -135,6 +147,7 @@ namespace BTLWeb.Controllers
             {
                 ReturnUrl = returnUrl
             };
+            ViewData["ReturnUrl"] = returnUrl ?? Url.Content("~/");
             return View(registerViewModel);
         }
 
