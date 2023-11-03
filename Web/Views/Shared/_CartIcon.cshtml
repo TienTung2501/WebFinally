@@ -4,7 +4,9 @@
 @{
     double total = 0;
     int count = 0;
-    List<CartItem> cart = new List<CartItem>();
+    List<CartItem>
+           cart = new List<CartItem>
+       ();
     const string CARTKEY = "cart";
     var session = HttpContextAccessor.HttpContext.Session;
     string jsoncart = session.GetString(CARTKEY);
@@ -12,30 +14,32 @@
     {
         cart = JsonConvert.DeserializeObject<List<CartItem>>(jsoncart);
     }
+
     @foreach (var item in cart)
     {
         total += item.total;
         count += item.quantity;
 
-    }
- }
- <div id="cartIcon">
-        <li class="hm-minicart">
-            <div class="hm-minicart-trigger">
-                <span class="item-icon"></span>
-                <span class="item-text">
-                    $@total
-                    <span class="cart-item-count">@count</span>
-                </span>
-            </div>
-            <span></span>
-            <div class="minicart">
-                <ul class="minicart-product-list">
-                @for (int i = 0; i < (4 > cart.Count ? cart.Count:3); i++)
+    }  
+}
+<div id="cartIcon">
+
+    <li class="hm-minicart">
+        <div class="hm-minicart-trigger">
+            <span class="item-icon"></span>
+            <span class="item-text">
+                $@total
+                <span class="cart-item-count">@count</span>
+            </span>
+        </div>
+        <span></span>
+        <div class="minicart">
+            <ul class="minicart-product-list">
+                @for (int i = 0; i < (4 > cart.Count ? cart.Count : 3); i++)
                 {
                     <li>
                         <a href="single-product.html" class="minicart-product-image">
-                            <img src="images/product/small-size/@cart[i].product.Image" alt="cart products">
+                            <img src="images/product/large-size/@cart[i].product.Image" alt="cart products">
                         </a>
                         <div class="minicart-product-details">
                             <h6><a href="single-product.html">@cart[i].product.NameProduct</a></h6>
@@ -43,21 +47,16 @@
                         </div>
                     </li>
                 }
-            
-                </ul>
-                <p class="minicart-total">SUBTOTAL: <span>$@total</span></p>
-                <div class="minicart-button">
-                    <a asp-action="Cart" asp-controller="ShoppingCart" class="li-button li-button-dark li-button-fullwidth li-button-sm">
-                        <span>View Full Cart</span>
-                    </a>
-                <a style="cursor:pointer" asp-controller="Order" asp-action="Index" class="li-button li-button-dark li-button-fullwidth li-button-sm">
-                    <span>Your Order</span>
+
+            </ul>
+            <p class="minicart-total">SUBTOTAL: <span>$@total</span></p>
+            <div class="minicart-button">
+                <a asp-action="Index" asp-controller="ShoppingCart" class="li-button li-button-dark li-button-fullwidth li-button-sm">
+                    <span>View Full Cart</span>
                 </a>
-                    <a href="checkout.html" class="li-button li-button-fullwidth li-button-dark li-button-sm">
-                        <span>Checkout</span>
-                    </a>
-                
-                </div>
+               <a asp-controller="Order" asp-action="Index" class="li-button li-button-dark li-button-fullwidth li-button-sm">View Order</a>
             </div>
-        </li>
- </div>
+        </div>
+    </li>
+
+</div>

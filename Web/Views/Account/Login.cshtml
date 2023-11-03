@@ -45,10 +45,10 @@
         </form>
     </div>
     @{
-        var schemes = await signInManager.GetExternalAuthenticationSchemesAsync();
-        var loginProivders = schemes.ToList();
+        var schemes = await signInManager.GetExternalAuthenticationSchemesAsync();// danh sách các lược đồ đăng nhập bên ngoài
+        var loginProivders = schemes.ToList();// chuyển các lượng đồ đăng nhập thành list( đăng nhập bằng google/ face/ twitter)
     }
-    @if (loginProivders.Count() > 0)
+    @if (loginProivders.Count() > 0)// nếu có nhiều hơn 1 phương thức đăng nhập giao diện sẽ hiển thị phần đăng nhập bên ngoài
     {
         <div class="col-md-4">
             <section>
@@ -56,7 +56,7 @@
                 <form asp-controller="Account" asp-action="ExternalLogin" asp-route-returnUrl="@ViewData["ReturnUrl"]" method="post" role="form">
                     <div>
                         <p>
-                            @foreach (var provider in loginProivders)
+                            @foreach (var provider in loginProivders)// hiển thị các nút đăng nhập của các phương thức đăng nhập khác nhau.
                             {
                                 <button type="submit" class="btn btn-primary" name="provider" value="@provider.Name"
                                         title="Log in using your @provider.Name account">

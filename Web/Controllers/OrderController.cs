@@ -5,6 +5,7 @@ using System.Security.Claims;
 using Web.Data;
 
 namespace Web.Controllers
+    
 {
     [Authorize (Roles ="Admin,Customer")]
     public class OrderController : Controller
@@ -19,7 +20,7 @@ namespace Web.Controllers
         {
             var user = HttpContext.User;
             UserID = user.FindFirst(ClaimTypes.NameIdentifier).Value;
-            var orderlist=data.TblOrders.Include(m=>m.User).Where(m=>m.UserId==UserID).ToList();
+            var orderlist=data.TblOrders.Include(m=>m.User).Where(m=>m.UserId==UserID).OrderByDescending(d=>d.CreatedAt).ToList();
             ViewBag.Username = user.FindFirst(ClaimTypes.Name).Value;
             int pageSize = 5;
             ViewBag.pageCount=(int)Math.Ceiling((double)orderlist.Count/pageSize);
@@ -32,7 +33,7 @@ namespace Web.Controllers
         {
             var user = HttpContext.User;
             UserID = user.FindFirst(ClaimTypes.NameIdentifier).Value;
-            var orderlist = data.TblOrders.Include(m => m.User).Where(m => m.UserId == UserID).ToList();
+            var orderlist = data.TblOrders.Include(m => m.User).OrderByDescending(d => d.CreatedAt).Where(m => m.UserId == UserID).ToList();
             ViewBag.pageCount=(int)Math.Ceiling((double)orderlist.Count/pageSize);
             orderlist=orderlist.Skip((page - 1)*pageSize).Take(pageSize).ToList();
             ViewBag.CurrentPage = page;

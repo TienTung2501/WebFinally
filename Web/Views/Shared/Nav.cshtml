@@ -6,7 +6,7 @@
             <div class="col-lg-3 col-md-4">
                 <div class="header-top-left">
                     <ul class="phone-wrap">
-                        <li><span>Telephone Enquiry:</span><a href="#">(+123) 123 321 345</a></li>
+                        <li><span>Telephone Enquiry:</span><a href="#">(+84) 73104495</a></li>
                     </ul>
                 </div>
             </div>
@@ -19,27 +19,10 @@
                         <partial name="_Login" />
                         <!-- Setting Area End Here -->
                         <!-- Begin Currency Area -->
-                        <li>
-                            <span class="currency-selector-wrapper">Currency :</span>
-                            <div class="ht-currency-trigger"><span>USD $</span></div>
-                            <div class="currency ht-currency">
-                                <ul class="ht-setting-list">
-                                    <li><a href="#">EUR €</a></li>
-                                    <li class="active"><a href="#">USD $</a></li>
-                                </ul>
-                            </div>
-                        </li>
+                        
                         <!-- Currency Area End Here -->
                         <!-- Begin Language Area -->
                         <li>
-                            <span class="language-selector-wrapper">Language :</span>
-                            <div class="ht-language-trigger"><span>English</span></div>
-                            <div class="language ht-language">
-                                <ul class="ht-setting-list">
-                                    <li class="active"><a href="#"><img src="images/menu/flag-icon/1.jpg" alt="">English</a></li>
-                                    <li><a href="#"><img src="images/menu/flag-icon/2.jpg" alt="">Français</a></li>
-                                </ul>
-                            </div>
                         </li>
                         <!-- Language Area End Here -->
                     </ul>
@@ -67,7 +50,7 @@
             <div class="col-lg-9 pl-0 ml-sm-15 ml-xs-15">
                 <!-- Begin Header Middle Searchbox Area -->
                 <form action="#" class="hm-searchbox" id="searchForm">
-                    <input type="text" placeholder="Enter your search key ...">
+                    <input type="text" placeholder="Enter your search key ..." id="searchInput">
                     <button class="li-btn" type="submit"><i class="fa fa-search"></i></button>
                 </form>
                 <!-- Header Middle Searchbox Area End Here -->
@@ -75,16 +58,15 @@
                 <div class="header-middle-right">
                     <ul class="hm-menu d-flex">
                         <!-- Begin Header Middle Wishlist Area -->
-                        <li class="hm-wishlist">
+                       @*  <li class="hm-wishlist">
                             <a asp-action="Index" asp-controller="WishList">
                                 <span class="cart-item-count wishlist-item-count">0</span>
                                 <i class="fa fa-heart-o"></i>
                             </a>
-                        </li>
+                        </li> *@
                         <!-- Header Middle Wishlist Area End Here -->
                         <!-- Begin Header Mini Cart Area --> 
                          <partial name="_CartIcon" />
-  
                         <!-- Header Mini Cart Area End Here -->
                     </ul>
                 </div>
@@ -125,10 +107,9 @@
                                 </ul>
                             </li>
 
-                            <li><a asp-action="Index" asp-controller="Contact">Contact</a></li>
                             <!-- Begin Header Bottom Menu Information Area -->
                             <li class="hb-info f-right p-0 d-sm-none d-lg-block">
-                                <span>6688 London, Greater London BAS 23JK, UK</span>
+                                <span>Quốc Oai Hà Nội</span>
                             </li>
                             <!-- Header Bottom Menu Information Area End Here -->
                         </ul>

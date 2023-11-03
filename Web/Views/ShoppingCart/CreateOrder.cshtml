@@ -51,7 +51,7 @@
                                     {
                                         <tr id="cartItem_@item.product.ProductId">
                                             @* <td class="li-product-remove"><a style="cursor:pointer" asp-controller="ShoppingCart" asp-action="RemoveCart" asp-route-productId="@item.product.ProductId"><i class="fa fa-times"></i></a></td> *@
-                                            <td class="li-product-thumbnail"><a href="#"><img src="images/product/small-size/@item.product.Image" alt="Li's Product Image"></a></td>
+                                            <td class="li-product-thumbnail"><a href="#"><img src="images/product/large-size/@item.product.Image" alt="Li's Product Image"></a></td>
                                             <td class="li-product-name"><a href="#">@item.product.NameProduct</a></td>
                                             <td class="li-product-price"><span class="amount">@item.product.Price</span></td>
                                             <td class="quantity">
@@ -69,12 +69,11 @@
                                 <div class="col-12">
                                     <div class="coupon-all">
                                         <div class="coupon2">
-                                            <a asp-controller="ShoppingCart" asp-action="CreateOrder"
+                                            <a asp-controller="Order" asp-action="Index"
                                                class="button" style="display:flex;justify-content:center;align-items:center;cursor:pointer;background-color: #333; border: none; color: #fff; width: 120px; height: 40px;"
                                                onmouseover="this.style.backgroundColor='#ffc107'" onmouseout=" this.style.backgroundColor='#333'">
                                                 More Order
                                             </a>
-                                            @*  <input class="button" name="update_cart" value="Update cart" type="submit"> *@
                                         </div>
                                     </div>
                                 </div>
@@ -86,7 +85,6 @@
                                         <li>Subtotal <span id="subtotalAmount">@ViewBag.Total</span></li>
                                         <li>Total <span id="totalAmount">@ViewBag.Total</span></li>
                                     </ul>
-                                   @*  <a href="#">Proceed to checkout</a> *@
                                 </div>
                             </div>
                         </div>
