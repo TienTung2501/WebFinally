@@ -55,7 +55,7 @@
                                         <tr id="cartItem_@item.product.ProductId">
                                             <td class="li-product-remove"><a style="cursor:pointer" onclick="handlerRemoveCart(@item.product.ProductId)"><i class="fa fa-times"></i></a></td>
                                             @* <td class="li-product-remove"><a style="cursor:pointer" asp-controller="ShoppingCart" asp-action="RemoveCart" asp-route-productId="@item.product.ProductId"><i class="fa fa-times"></i></a></td> *@
-                                            <td class="li-product-thumbnail"><a href="#"><img src="images/product/small-size/@item.product.Image" alt="Li's Product Image"></a></td>
+                                            <td class="li-product-thumbnail"><a href="#"><img src="images/product/large-size/@item.product.Image" alt="Li's Product Image"></a></td>
                                             <td class="li-product-name"><a href="#">@item.product.NameProduct</a></td>
                                             <td class="li-product-price"><span class="amount">@item.product.Price</span></td>
                                             <td class="quantity">
@@ -153,14 +153,12 @@
             $("#totalAmount").text(total);
         }
         function handlerCreateCart() {
-        
-            var itemOncartCurents = $("#cartItem table tbody tr");
-            if (`itemOncartCurents.length ===0`) {
+
+            var itemOncartCurents = $("#cartitem table tbody tr");
+            if (itemOncartCurents.length ===0) {
                 alert("Giỏ hàng đang rỗng vui lòng chọn sản phẩm bạn muốn mua");
             }
-            
             else {
-                
                 alert("Đã tạo order");
                 window.location.href = "/ShoppingCart/CreateOrder";
             }
