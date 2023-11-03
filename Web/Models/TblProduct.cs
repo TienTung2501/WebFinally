@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -13,7 +14,7 @@ namespace Web.ViewModels
 
         public long ProductId { get; set; }
         [Required]
-        public string NameProduct { get; set; } = null!;
+        public string? NameProduct { get; set; } = null!;
         [Required]
         public long CategoryId { get; set; }
         [Required]
@@ -25,7 +26,7 @@ namespace Web.ViewModels
         [Required]
         public short Quantity { get; set; }
         [Required]
-        public DateTime CreatedAt { get; set; }
+        public DateTime? CreatedAt { get; set; }
         [Required]
         public DateTime? UpdatedAt { get; set; }
         [Required]
@@ -33,9 +34,9 @@ namespace Web.ViewModels
         [Required]
         public DateTime? StartsAt { get; set; }
         [Required]
-        public string? Image { get; set; }
-
-        public virtual TblCategory Category { get; set; } = null!;
+        public string Image { get; set; }
+        [ValidateNever]
+        public virtual TblCategory? Category { get; set; } = null!;
         public virtual ICollection<TblOrderDetail> TblOrderDetails { get; set; }
     }
 }
