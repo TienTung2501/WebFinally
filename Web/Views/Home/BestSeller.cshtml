@@ -35,7 +35,7 @@
                                 <!-- single-product-wrap start -->
                                 <div class="single-product-wrap">
                                     <div class="product-image " style="height : 240px">
-                                        <a href=" @* @Url.Action(" Detail", "Shop" , new { id=item.ProductId }) *@ ">
+                                        <a href=" @Url.Action("SingleProducts", "Shop" , new { id=item.ProductId }) ">
                                             <img src="images/product/large-size/@item.Image" alt="Li's Product Image">
                                         </a>
                                         <span class="sticker">New</span>
@@ -56,7 +56,7 @@
                                                     </ul>
                                                 </div>
                                             </div>
-                                            <h4><a class="product_name" href="single-product.html">@item.NameProduct</a></h4>
+                                            <h4><a class="product_name" href=" @Url.Action("SingleProducts", "Shop" , new { id=item.ProductId }) ">@item.NameProduct</a></h4>
                                             <div class="price-box">
                                                 <span class="new-price">$@item.Price</span>
                                             </div>
