@@ -11,7 +11,7 @@ namespace Web.ViewModels
         {
             TblOrderDetails = new HashSet<TblOrderDetail>();
         }
-
+        [Key]
         public long ProductId { get; set; }
         [Required]
         public string? NameProduct { get; set; } = null!;

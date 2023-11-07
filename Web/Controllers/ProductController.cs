@@ -9,12 +9,11 @@ namespace Web.Controllers
     public class ProductController : Controller
     {
         private readonly WebContext _context;
-        private readonly IWebHostEnvironment _webHostEnvironment;
 
-        public ProductController(WebContext context, IWebHostEnvironment webHostEnvironment)
+        public ProductController(WebContext context)
         {
             _context = context;
-            _webHostEnvironment = webHostEnvironment;
+            
         }
         //[Authorize(Roles = "admin")]
 
@@ -29,8 +28,7 @@ namespace Web.Controllers
             {
                 var listProducts = _context.TblProducts.Where(l => l.CategoryId == mid).Include(c => c.Category).ToList();
                 return View(listProducts);
-            }    
-            
+            }               
         }
         public IActionResult ProductByCategory(int mid)
         {
@@ -40,118 +38,88 @@ namespace Web.Controllers
             return PartialView("ProductTable", listProducts);
         }
 
-        [HttpGet]
-        public IActionResult Upsert(long? id)
+        public IActionResult Create()
         {
-            ProductViewModel productVM = new()
+            var categories = new List<SelectListItem>();
+            foreach(var item in _context.TblCategories)
             {
-                CategoryList = _context.TblProducts.Select(u => new SelectListItem
+                categories.Add(new SelectListItem
                 {
-                    Text = u.NameProduct,
-                    Value = u.ProductId.ToString()
-                }),
-                Product = new TblProduct()
-            };
-            if (id == null || id == 0)
-            {
-                //create
-                return View(productVM);
+                    Text = item.CategoryName,
+                    Value = item.CategoryId.ToString()
+                });
             }
-            else
-            {
-                //update
-                productVM.Product = _context.TblProducts.FirstOrDefault(u => u.ProductId == id);
-                return View(productVM);
-            }
+
+            ViewBag.CategoryId = categories;
+            ViewBag.CategoryId = new SelectList(_context.TblCategories, "CategoryId", "CategoryName");
+            return View();
 
         }
 
-        //[HttpPost]
-        //public IActionResult Upsert(ProductViewModel productVM, List<IFormFile> files)
-        //{
-        //    if(ModelState.IsValid)
-        //    {
-        //        if(productVM.Product.ProductId == 0)
-        //        {
-        //            _context.TblProducts.Add(productVM.Product);
-        //        }
-        //        else
-        //        {
-        //            _context.TblProducts.Update(productVM.Product);
-        //        }
-        //        _context.SaveChanges();
-
-        //        string wwwRootPath = _webHostEnvironment.WebRootPath;
-        //        if(files != null)
-        //        {
-        //            foreach (IFormFile file in files)
-        //            {
-        //                string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
-        //                string productPath = @"images\product\large-size\";
-        //                string finalPath = Path.Combine(wwwRootPath, productPath);
-
-        //                if (!Directory.Exists(finalPath))
-        //                    Directory.CreateDirectory(finalPath);
-
-        //                using (var fileStream = new FileStream(Path.Combine(finalPath, fileName), FileMode.Create))
-        //                {
-        //                    file.CopyTo(fileStream);
-        //                }
-
-        //                productVM.Product.Image = productPath + @"\" + fileName;
-        //            }
-        //            _context.TblProducts.Update(productVM.Product);
-        //            _context.SaveChanges();                   
-        //        }
-        //        return RedirectToAction("Index");
-        //    }
-        //    else
-        //    {
-        //        productVM.CategoryList = _context.TblProducts.Select(u => new SelectListItem
-        //        {
-        //            Text = u.NameProduct,
-        //            Value = u.ProductId.ToString()
-        //        });
-        //        return View(productVM);
-        //    }
-        //}
-
-
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Upsert(long ?id,ProductViewModel productVM)
+        public IActionResult Create([Bind("NameProduct, CategoryId, Decription, Price, Discount, Quantity, CreatedAt, UpdatedAt,PublishedAt, StartsAt, Image")] TblProduct product)
         {
-            if (id != productVM.Product.ProductId)
+            if (ModelState.IsValid)
+            {
+                _context.TblProducts.Add(product);
+                _context.SaveChanges();
+                return RedirectToAction(nameof(Index));
+            }
+            ViewBag.CategoryId = new SelectList(_context.TblCategories, "CategoryId", "CategoryName");
+            return View();           
+        }
+
+        public IActionResult Edit(long? id)
+        {
+            if (id == null || _context.TblProducts == null) 
+            { 
+                return NotFound(); 
+            }
+
+            var productEdit = _context.TblProducts.Find(id);
+
+            if (productEdit == null)
             {
                 return NotFound();
             }
-            // Kiểm tra xem ModelState có hợp lệ không
+
+            ViewBag.CategoryId = new SelectList(_context.TblCategories, "CategoryId", "CategoryName", productEdit.CategoryId);
+            return View(productEdit);
+        }
+        
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit(long? id, [Bind("ProductId,NameProduct, CategoryId, Decription, Price, Discount, Quantity, CreatedAt, UpdatedAt,PublishedAt, StartsAt, Image")] TblProduct product)
+        {
+            if (id != product.ProductId)
+            {
+                return NotFound();
+            }
             if (ModelState.IsValid)
             {
-                if (productVM.Product.ProductId == null || productVM.Product.ProductId == 0)
+                try
                 {
-                    // Nếu Id của sản phẩm là 0, thêm sản phẩm mới vào cơ sở dữ liệu
-                    _context.TblProducts.Add(productVM.Product);
+                    _context.Update(product);
                     _context.SaveChanges();
                 }
-                else
+                catch (DbUpdateConcurrencyException)
                 {
-                    // Ngược lại, cập nhật sản phẩm hiện có trong cơ sở dữ liệu
-                    _context.TblProducts.Update(productVM.Product);
-                    _context.SaveChanges();
+                    if (!ProductExists(product.ProductId))
+                    {
+                        return NotFound();
+                    }
+                    else { throw; }
                 }
-
-                // Chuyển hướng đến trang Index
                 return RedirectToAction(nameof(Index));
             }
+            ViewBag.CategoryId = new SelectList(_context.TblCategories, "CategoryId", "CategoryName", product.CategoryId);
+            return View(product);
+        }
 
-            // Nếu ModelState không hợp lệ, cập nhật lại danh sách danh mục sản phẩm và trả về view với ProductViewModel
-            productVM.CategoryList = _context.TblProducts.Select(u => new SelectListItem
-            {
-                Text = u.NameProduct,
-                Value = u.ProductId.ToString()
-            });
-            return View(productVM);
+        private bool ProductExists(long? id)
+        {
+            return (_context.TblProducts?.Any(e => e.ProductId == id)).GetValueOrDefault();
         }
 
         [HttpGet]

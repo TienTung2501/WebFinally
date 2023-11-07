@@ -2,6 +2,6 @@
 @foreach(var c in Model)
 {
 <ul>
-        <li><input type="checkbox" name="product-categori" class="category-filter"><a href="#">@c.CategoryName</a></li>
+        <li><input type="checkbox" name="product-categori" class="category-filter" id="@c.CategoryId"><a href="#">@c.CategoryName</a></li>
 </ul>
 }

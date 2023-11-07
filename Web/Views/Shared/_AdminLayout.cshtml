@@ -29,8 +29,12 @@
 
 <!-- Core plugin JavaScript-->
 <script src="~/js/jquery.easing.js"></script>
-
+<script src="https://cdn.tiny.cloud/1/g28lhnxtlihu4l4a381gw7tz47voznshwbi10lmsvlekrfme/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
 <!-- Custom scripts for all pages-->
 <script src="~/js/admin.js"></script>
+@await RenderSectionAsync("Scripts",required:false);
+@await RenderSectionAsync("Box",required:false);
 
 
+
+</html>
