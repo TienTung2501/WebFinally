@@ -33,6 +33,7 @@ namespace WebProgramming.Controllers
 
         public IActionResult _NewArrivals()
         {
+            //WebContext _context = new WebContext();
             //List<TblProduct> items = _context.TblProducts.Take(6).ToList();
             return View("_NewArrivals");
         }

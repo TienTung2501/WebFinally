@@ -5,13 +5,12 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Web.ViewModels
 {
-    public partial class TblProduct
+    public class TblProduct
     {
         public TblProduct()
         {
             TblOrderDetails = new HashSet<TblOrderDetail>();
         }
-
         public long ProductId { get; set; }
         [Required]
         public string? NameProduct { get; set; } = null!;
@@ -35,7 +34,6 @@ namespace Web.ViewModels
         public DateTime? StartsAt { get; set; }
         [Required]
         public string Image { get; set; }
-        [ValidateNever]
         public virtual TblCategory? Category { get; set; } = null!;
         public virtual ICollection<TblOrderDetail> TblOrderDetails { get; set; }
     }

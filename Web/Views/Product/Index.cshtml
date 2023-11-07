@@ -1,4 +1,10 @@
-﻿@model List<TblProduct>
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+@model IEnumerable<TblProduct>
 
 <div class="card row shadow bg border-0 my-4">
     <div class="card-header bg-secondary  ml-0 py-3">
@@ -9,11 +15,11 @@
         </div>
     </div>
     <div class="pt-4 pb-4 d-flex">
-        <div class="" style="width:10%">@await Component.InvokeAsync("Category")</div>
-        <div class="row pb-3  justify-content-between align-items-center" style="width:90%">
-            
-            <div class=" pr-15 pb-10 ">
-                <a asp-controller="Product" asp-action="Upsert" class="btn btn-primary">
+        <div class="" style="width:15%">@await Component.InvokeAsync("Category")</div>
+        <div class="row pb-3  justify-content-between align-items-center" style="width:85%">           
+            <div class=" pr-15 pb-15 ">
+                
+                <a asp-controller="Product" asp-action="Create" m class="btn btn-primary">
                     <i class="bi bi-plus-circle"></i> Create New Product
                 </a>
             </div>
@@ -41,14 +47,16 @@
                                 <td>@item.StartsAt</td>
                                 <td>
                                     <div class="text-center">
-                                        <form asp-action="Delete" asp-route-id="@item.ProductId">
-                                            <a asp-action="Details" asp-route-id="@item.ProductId" class="btn btn-dark text-white " style="cursor:pointer">
+                                        <form >
+                                            <a asp-controller="Product" asp-action="Details" asp-route-id="@item.ProductId" class="btn btn-dark text-white " style="cursor:pointer">
                                                 Details
                                             </a>
-                                            <a asp-action="Upsert" asp-route-id="@item.ProductId" class="btn btn-info text-white" style="cursor:pointer">
+                                            <a asp-controller="Product" asp-action="Edit" asp-route-id="@item.ProductId" class="btn btn-info text-white" style="cursor:pointer">
                                                 Edit
                                             </a>
-                                            <button type="submit" class="btn btn-danger">Delete</button>
+                                            <a asp-controller="Product" asp-action="Delete" asp-route-id="@item.ProductId" class="btn btn-info text-white" style="cursor:pointer">
+                                                Delete
+                                            </a>
                                         </form>
                                     </div>
                                 </td>
