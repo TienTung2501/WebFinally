@@ -9,7 +9,7 @@ namespace Web.Controllers
 {
     public class ProductController : Controller
     {
-        private WebContext _context;
+        private readonly WebContext _context;
 
         public ProductController(WebContext context)
         {
@@ -38,104 +38,6 @@ namespace Web.Controllers
                 .Include(c => c.Category).ToList();
             return PartialView("ProductTable", listProducts);
         }
-
-        //public IActionResult Create()
-        //{
-        //    var categories = new List<SelectListItem>();
-        //    foreach(var item in _context.TblCategories)
-        //    {
-        //        categories.Add(new SelectListItem
-        //        {
-        //            Text = item.CategoryName,
-        //            Value = item.CategoryId.ToString()
-        //        });
-        //    }
-        //    ViewBag.CategoryId = categories;
-        //    ViewBag.CategoryId = new SelectList(_context.TblCategories, "CategoryId", "CategoryName");
-        //    Console.WriteLine($"Exception:3");
-        //    return View();
-        //}
-        //[HttpPost]
-        ////[ValidateAntiForgeryToken]
-        //public IActionResult Create([Bind("NameProduct, CategoryId, Decription, Price, Discount, Quantity, CreatedAt, UpdatedAt,PublishedAt, StartsAt, Image")] TblProduct product)
-        //{
-        //    try
-        //    {
-        //        _context = new WebContext();
-        //        Console.WriteLine($"Exception:1");
-        //        if (ModelState.IsValid)
-        //        {
-        //            Console.WriteLine($"Exception: 2 ");
-        //            _context.TblProducts.Add(product);
-        //            _context.SaveChanges();
-        //            return RedirectToAction(nameof(Index));
-        //        }
-                
-        //    }
-        //    catch
-        //    {
-
-        //    }
-        //    ViewBag.CategoryId = new SelectList(_context.TblCategories, "CategoryId", "CategoryName");
-        //    return View();
-        //}
-
-        //public IActionResult Edit(long? id)
-        //{
-        //    if (id == null || _context.TblProducts == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    var productEdit = _context.TblProducts.Find(id);
-
-        //    if (productEdit == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    ViewBag.CategoryId = new SelectList(_context.TblCategories, "CategoryId", "CategoryName", productEdit.CategoryId);
-        //    return View(productEdit);
-        //}
-        //[HttpPost]
-        ////[ValidateAntiForgeryToken]
-        //public IActionResult Edit(long? id, [Bind("ProductId,NameProduct, CategoryId, Decription, Price, Discount, Quantity, CreatedAt, UpdatedAt,PublishedAt, StartsAt, Image")] TblProduct product)
-        //{
-        //    if (id != product.ProductId)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    if (ModelState.IsValid)
-        //    {
-        //        try
-        //        {
-        //            // Cập nhật dữ liệu sản phẩm trong cơ sở dữ liệu dựa trên updatedProduct
-        //            _context.TblProducts.Update(product);
-        //            _context.SaveChanges();
-        //        }
-        //        catch (DbUpdateConcurrencyException)
-        //        {
-        //            if (!ProductExists(product.ProductId))
-        //            {
-        //                return NotFound();
-        //            }
-        //            else
-        //            {
-        //                throw;
-        //            }
-        //        }
-        //        return RedirectToAction(nameof(Index)); // Chuyển hướng đến trang Index hoặc trang chi tiết sản phẩm tùy thuộc vào yêu cầu của bạn.
-        //    }
-        //    ViewBag.CategoryId = new SelectList(_context.TblCategories, "CategoryId", "CategoryName", product.CategoryId);
-        //    return View(product);
-        //}
-
-
-        //private bool ProductExists(long? id)
-        //{
-        //    return (_context.TblProducts?.Any(e => e.ProductId == id)).GetValueOrDefault();
-        //}
 
         [HttpGet]
         public IActionResult Delete(long? id) 
