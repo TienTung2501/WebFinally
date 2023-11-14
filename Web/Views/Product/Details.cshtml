@@ -37,19 +37,9 @@
                         <div class="product-info">
                             <h2>@Model[0].NameProduct</h2>
                             <span class="product-details-ref">Reference: demo_15</span>
-                            <div class="rating-box pt-20">
-                                <ul class="rating rating-with-review-item">
-                                    <li><i class="fa fa-star-o"></i></li>
-                                    <li><i class="fa fa-star-o"></i></li>
-                                    <li><i class="fa fa-star-o"></i></li>
-                                    <li class="no-star"><i class="fa fa-star-o"></i></li>
-                                    <li class="no-star"><i class="fa fa-star-o"></i></li>
-                                    <li class="review-item"><a href="#">Read Review</a></li>
-                                    <li class="review-item"><a href="#">Write Review</a></li>
-                                </ul>
-                            </div>
                             <div class="price-box pt-20">
                                 <span class="new-price new-price-2">@Model[0].Price$</span>
+                                <span class="old-price">@Model[0].Discount$</span>
                             </div>
                             <div class="product-desc">
                                 <p>
@@ -58,7 +48,44 @@
                                     </span>
                                 </p>
                             </div>
-                       
+                            
+                            <!-- Hiển thị số lượng -->
+                            <div class="product-desc">
+                                <p>
+                                    <span>
+                                        Quantity: @Model[0].Quantity
+                                    </span>
+                                </p>
+                            </div>
+                            <!-- Hiển thị thời gian -->
+                            <div class="product-desc">
+                                <p>
+                                    <span>
+                                        Created At: @Model[0].CreatedAt
+                                    </span>
+                                </p>
+                            </div>
+                            <div class="product-desc">
+                                <p>
+                                    <span>
+                                        Updated At: @Model[0].UpdatedAt
+                                    </span>
+                                </p>
+                            </div>
+                            <div class="product-desc">
+                                <p>
+                                    <span>
+                                        Published At: @Model[0].PublishedAt
+                                    </span>
+                                </p>
+                            </div>
+                            <div class="product-desc">
+                                <p>
+                                    <span>
+                                        Starts At: @Model[0].StartsAt
+                                    </span>
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </div>
