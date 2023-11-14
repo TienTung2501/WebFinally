@@ -3,15 +3,21 @@
 @{
     WebContext _context = new WebContext();
     var topProducts = _context.TblOrderDetails
-                            .GroupBy(od => od.ProductId)
-                            .Select(g => new
-                            {
-                                ProductId = g.Key,
-                                TotalRevenue = g.Sum(od => (od.Price - od.Discount) * od.Quantity)
-                            })
-                            .OrderByDescending(p => p.TotalRevenue).Take(6)
-                            .Join(_context.TblProducts, od => od.ProductId, p => p.ProductId, (od, p) => p)
-                            .ToList();
+        // Nhóm các đơn đặt hàng theo ProductId
+        .GroupBy(od => od.ProductId)
+        // Tính tổng doanh thu cho mỗi nhóm, và chọn ProductId và TotalRevenue
+        .Select(g => new
+        {
+            ProductId = g.Key,
+            TotalRevenue = g.Sum(od => (od.Price - od.Discount) * od.Quantity)
+        })
+        // Sắp xếp các nhóm theo TotalRevenue giảm dần
+        .OrderByDescending(p => p.TotalRevenue)
+        .Take(6)
+        // Thực hiện join với bảng TblProducts để lấy thông tin chi tiết của sản phẩm
+        .Join(_context.TblProducts, od => od.ProductId, p => p.ProductId, (od, p) => p)
+        .ToList();
+
 }
 <div class="product-area pt-30 pb-50">
     <div class="container">

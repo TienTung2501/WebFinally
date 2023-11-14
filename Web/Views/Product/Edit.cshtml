@@ -101,29 +101,46 @@
 </div>
 @section Scripts{
     <script>
+
         function displayImage(input) {
+            // Kiểm tra xem người dùng đã chọn tệp và tệp đầu tiên có tồn tại hay không.
             if (input.files && input.files[0]) {
+                // FileReader là một đối tượng trong JavaScript giúp đọc dữ liệu từ tệp.
                 var reader = new FileReader();
+
+                // Sự kiện onload sẽ được gọi khi quá trình đọc tệp hoàn tất.
                 reader.onload = function (e) {
+                    // Thiết lập thuộc tính src của phần tử có id 'imagePreview' để hiển thị ảnh được chọn.
                     $('#imagePreview').attr('src', e.target.result).show();
                 };
+
+                // Đọc nội dung của tệp hình ảnh được chọn.
                 reader.readAsDataURL(input.files[0]);
 
+                // Lấy thông tin về tệp hình ảnh được chọn và hiển thị tên trong một phần tử có id 'imageOutput'.
                 var file = input.files[0];
                 var imageOutput = document.getElementById('imageOutput');
                 imageOutput.value = file.name;
             }
 
-
-
+            // Lấy đường dẫn đầy đủ của tệp hình ảnh từ phần tử có id 'imageInput'.
             var fullPath = document.getElementById('imageInput').value;
             console.log("full Path: " + fullPath);
+
+            // Kiểm tra xem đường dẫn đầy đủ có tồn tại hay không.
             if (fullPath) {
+                // Tìm vị trí cuối cùng của dấu '\' hoặc '/' trong đường dẫn đầy đủ.
                 var startIndex = (fullPath.indexOf('\\') >= 0 ? fullPath.lastIndexOf('\\') : fullPath.lastIndexOf('/'));
+
+                // Lấy tên tệp từ đường dẫn đầy đủ.
                 var filename = fullPath.substring(startIndex);
+
+                // Nếu tên tệp bắt đầu bằng '\' hoặc '/', loại bỏ ký tự đầu tiên.
                 if (filename.indexOf('\\') === 0 || filename.indexOf('/') === 0) {
                     filename = filename.substring(1);
                 }
+
+                // Hiển thị tên tệp trong phần tử có id 'imageInput'.
                 console.log("File name: " + filename);
                 document.getElementById('imageInput').value = filename;
             }
