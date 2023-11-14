@@ -14,23 +14,31 @@
             </div>
         </div>
     </div>
-    <div class="pt-4 pb-4 d-flex">
-        <div class="" style="width:15%">@await Component.InvokeAsync("Category")</div>
-        <div class="row pb-3  justify-content-between align-items-center" style="width:85%">           
-            <div class=" pr-15 pb-15 ">
-                
-                <a asp-controller="Product" asp-action="Create" m class="btn btn-primary">
+    <div class="pt-4 pb-4 ">
+       
+        <div class="row pb-3 m-auto " style="width:97%">  
+            <form class="d-none d-md-inline-block form-check-inline ms-auto me-0 me-md-3 my-2 my-md-0">
+                <div class="input-group">
+                    <input id="keyword" class="form-control" name="keyword" type="text" placeholder="Search product" />
+                    <button class="btn btn-primary" id="btnSearch" type="button">
+                        <i class=" text-dark ">Search</i>
+
+                    </button>
+                </div>
+            </form>
+            <div class="ml-auto pb-10 pr-10">
+                <a asp-controller="Product" asp-action="Create" class="btn btn-primary">
                     <i class="bi bi-plus-circle"></i> Create New Product
                 </a>
             </div>
             @if (Model.Any())
             {
-                <div id="content" class="w-100">
+                <div id="content" class="w-100 pl-10 pr-10">
                     <table class="table align-content-center text-black border border-secondary">
                         <tr>
                             <th>NameProduct</th>
-                            <th>CategoryID</th>
                             <th>Price</th>
+                            <th>CategoryID</th>
                             <th>Discount</th>
                             <th>Quantity</th>
                             <th>StartsAt</th>
@@ -39,9 +47,9 @@
                         @foreach (var item in Model)
                         {
                             <tr>
-                                <td>@item.NameProduct</td>
-                                <td>@item.CategoryId</td>
+                                <td>@item.NameProduct</td>                                
                                 <td>@item.Price</td>
+                                <td>@item.CategoryId</td>
                                 <td>@item.Discount</td>
                                 <td>@item.Quantity</td>
                                 <td>@item.StartsAt</td>
@@ -51,7 +59,7 @@
                                             <a asp-controller="Product" asp-action="Details" asp-route-id="@item.ProductId" class="btn btn-dark text-white " style="cursor:pointer">
                                                 Details
                                             </a>
-                                            <a asp-controller="Product" asp-action="Edit" asp-route-id="@item.ProductId" class="btn btn-info text-white" style="cursor:pointer">
+                                            <a asp-controller="Product" asp-action="Edit" asp-route-id="@item.ProductId" class="btn btn-danger text-white " style="cursor:pointer">
                                                 Edit
                                             </a>
                                             <a asp-controller="Product" asp-action="Delete" asp-route-id="@item.ProductId" class="btn btn-info text-white" style="cursor:pointer">
@@ -63,6 +71,15 @@
                             </tr>
                         }
                     </table>
+                    <ul class="pagination">
+                        @for (int i = 1; i <= ViewBag.pageNumber; i++)
+                        {
+                            <li class="page-item" page="@i">        
+                                @(ViewBag.keyword != null ? "keyword = '@ViewBag.keyword'" : "")
+                                <a class="page-link">@i</a>
+                            </li>
+                        }
+                    </ul>
                 </div>
 
             }
@@ -71,6 +88,32 @@
 </div>
 @section Scripts {
     <script>
+        $('body').on('click', 'li.page-item', function (e) {
+            var page = $(this).attr("page");
+            var keyword = $(this).attr("keyword");
+            var data = { keyword: keyword, pageIndex: page }; 
+            $.ajax({
+                url: "ProductFilter", 
+                data: data,
+                success: function (response) {
+                    $("div#content").html(response);
+                }
+            });
+        });
+
+        $("button#btnSearch").click( function (e) {
+            var keyword = $("#keyword").val();
+            var data = {keyword : keyword};
+            $.ajax({
+                url: "ProductFilter",
+                data: data,
+                success: function (response) {
+                    $("div#content").html(response);
+                }
+            });
+        });
+    </script>
+    @* <script>
         // $("li").click(function (e) {
         //     var id = $(this).attr("id");
         //     $.ajax({
@@ -95,5 +138,5 @@
                 }
             });
         });
-    </script>
+    </script> *@
 }

@@ -5,8 +5,8 @@
 <table class="table align-content-center text-black border border-secondary">
     <tr>
         <th>NameProduct</th>
-        <th>CategoryID</th>
         <th>Price</th>
+        <th>CategoryID</th>
         <th>Discount</th>
         <th>Quantity</th>
         <th>StartsAt</th>
@@ -16,21 +16,35 @@
     {
         <tr>
             <td>@item.NameProduct</td>
-            <td>@item.CategoryId</td>
             <td>@item.Price</td>
+            <td>@item.CategoryId</td>
             <td>@item.Discount</td>
             <td>@item.Quantity</td>
             <td>@item.StartsAt</td>
             <td>
                 <div class="text-center">
-                    <form asp-action="Delete" asp-route-id="@item.ProductId">
-                        <a asp-action="Upsert" asp-route-id="@item.ProductId" class="btn btn-info text-white" style="cursor:pointer">
+                    <form>
+                        <a asp-controller="Product" asp-action="Details" asp-route-id="@item.ProductId" class="btn btn-dark text-white " style="cursor:pointer">
+                            Details
+                        </a>
+                        <a asp-controller="Product" asp-action="Edit" asp-route-id="@item.ProductId" class="btn btn-danger text-white " style="cursor:pointer">
                             Edit
                         </a>
-                        <button type="submit" class="btn btn-danger">Delete</button>
+                        <a asp-controller="Product" asp-action="Delete" asp-route-id="@item.ProductId" class="btn btn-info text-white" style="cursor:pointer">
+                            Delete
+                        </a>
                     </form>
                 </div>
             </td>
         </tr>
     }
 </table>
+<ul class="pagination">
+    @for (int i = 1; i <= ViewBag.pageNumber; i++)
+    {
+        <li class="page-item" page="@i">
+            @(ViewBag.keyword != null ? "keyword = '@ViewBag.keyword'" : "")
+            <a class="page-link">@i</a>
+        </li>
+    }
+</ul>
